@@ -17,15 +17,8 @@
             <!-- this text needs to be changed whenever new modules come -->
             <div id="sgnup4" style="margin-bottom: 30px;">
                 This is the main private area of your account, here you can add/edit/manage escort profiles that you set up. You can remove or
-                add new photos to their galleries. You can buy coin packages or acquire new model packages directly for your active escort profiles.
-                We offer a variety of advertising packages. Each package comes with it's own predefined <a href="../bonus">bonuses</a>.
-            </div>
-
-            <div id="sgnup4" style="margin-bottom: 30px;">
-                Your signup bonus code: {{ user.code }}<br><br>
-                Everyone that will be signed under your code will get a great signup bonus from us and you will be entitled to 50% of every
-                purchase he makes. You will accumulate money in the bonus section and when u want you can put in different payment methods
-                to which the money will be automatically sent from us. For this you have to give to as many people your signup bonus code.
+                add new photos to their galleries. You can buy new packages, or prolong existing ones, for your active escort profiles.
+                We offer a variety of advertising packages.
             </div>
 
             <!--<div id="sgnup4" style="margin-bottom: 30px; padding-bottom: 0px !important;">
@@ -66,7 +59,7 @@
                         <i class="icon-shopping-cart"></i> Buy VIP
                     </a>&nbsp;&nbsp;-->
                     <a href="{{ url.getBaseUri() }}private/bonus" class="myButton6">
-                        <i class="icon-file"></i> My Members/Earnings
+                        <i class="icon-trophy"></i> s3xScheme
                     </a>&nbsp;&nbsp;
                     <!--<a href="{{ url.getBaseUri() }}private/coins">
                         <div id="private2">
@@ -124,6 +117,14 @@
             </div>
 
             <div id="sgnup4" style="margin-bottom: 30px;">
+                Your signup bonus code: {{ user.code }}<br><br>
+
+                Everyone that will be signed under your code will be placed right into your s3xScheme. You will accumulate revenue throughout the whole
+                month from yourself and your downlines. For this you have to give to as many people your signup bonus code, or wait for automatic order
+                of the s3xScheme system to place someone under your s3xScheme.
+            </div>
+
+            <div id="sgnup4" style="margin-bottom: 30px;">
                 <div id="showid" style="padding-left: 10px;"><div id="shownameid2">Useful Information</div></div>
 
                 <div class="profile1">
@@ -135,10 +136,9 @@
                         <div class="dropdown-container" style="display: none;">
                             <p>
                                 This is the package for top positions on <a href="{{ url.getBaseUri() }}">www.{{ mainLogo }}.com</a>. You
-                                can choose for how long you want to buy this package. Options are 1,3,5,10,15,30 or 90 days. Your ad will be among top
+                                can choose length for this package either 15 or 30 days. Your ad will be among top
                                 listings on <a href="{{ url.getBaseUri() }}">www.{{ mainLogo }}.com</a>. The price for this package varies depending on
-                                the days you select. From 10 s3xcoins (10 EUR) for 1 day to 140 s3xcoins (140 EUR) for 90 days.
-                                If you buy this package you will get 20% returned as s3xcoins and credited them back to your s3xcoins account.
+                                the days you select. 15 days Diamond package costs 150 EUR and 30 days Diamond package costs 200 EUR.
                             </p>
                         </div>
                     </div>
@@ -148,10 +148,9 @@
                         <div class="dropdown-container" style="display: none;">
                             <p>
                                 This is the package after <b>Diamond</b> positions on <a href="{{ url.getBaseUri() }}">www.{{ mainLogo }}.com</a>.
-                                You can choose for how long you want to buy this package. Options are 3,10,15,30 or 90. Your ad will be listed after
+                                You can choose length for this package either 15 or 30 days. Your ad will be listed after
                                 <b>Diamond</b> listings on <a href="{{ url.getBaseUri() }}">www.{{ mainLogo }}.com</a>. The price for this package
-                                varies depending on the days you select. From 10 s3xcoins (10 EUR) for 3 days to 100 s3xcoins (100 EUR) for 90 days.
-                                If you buy this package you will get 10% returned as s3xcoins and credited them back to your s3xcoins account.
+                                varies depending on the days you select. 15 days Gold package costs 130 EUR and 30 days Gold package costs 170 EUR.
                             </p>
                         </div>
                     </div>
@@ -161,10 +160,9 @@
                         <div class="dropdown-container" style="display: none;">
                             <p>
                                 This is the package after <b>Gold</b> positions on <a href="{{ url.getBaseUri() }}">www.{{ mainLogo }}.com</a>.
-                                You can choose for how long you want to buy this package. Options are 10,30 or 90 days. Your ad will be listed after
+                                You can choose length for this package either 15 or 30 days. Your ad will be listed after
                                 <b>Gold</b> listings on <a href="{{ url.getBaseUri() }}">www.{{ mainLogo }}.com</a>. The price for this package varies
-                                depending on the days you select. From 20 s3xcoins (20 EUR) for 10 days to 80 s3xcoins (80 EUR) for 90 days.
-                                If you buy this package you will get 5% returned as s3xcoins and credited them back to your s3xcoins account.
+                                depending on the days you select. 15 days Silver package costs 110 EUR and 30 days Silver package costs 140 EUR.
                             </p>
                         </div>
                     </div>
@@ -182,8 +180,7 @@
                     </div>
 
                     <br />
-                    You have to buy s3xcoins before you can acquire a package. You can buy s3xcoins with for your account with credit card, bank transfer,
-                    Western Union or Moneygram. 1 s3xcoin is nominal value of 1 EUR. Check <a href="../bonus">bonuses</a>.
+                    You can pay for your chosen packages with your credit card, bank transfer, Western Union or Moneygram.
                     <br /><br />
                 </div>
             </div>

@@ -16,9 +16,7 @@
                 <br /><br />
                 <b style="color: #f24437 !important;">Skype:</b> <b style="color: #286090 !important;">s3xnetworks</b>
                 <br /><br />
-                <b style="color: #f24437 !important;">Viber:</b> <b style="color: #286090 !important;">+380 939 629 318</b>
-                <br /><br />
-                <b style="color: #f24437 !important;">WhatsApp/WeChat/LINE:</b> <b style="color: #286090 !important;">+380 931 941 149</b>
+                <b style="color: #f24437 !important;">Viber/WhatsApp/WeChat/LINE:</b> <b style="color: #286090 !important;">+380 931 941 149</b>
             </div>
         </div>
     </div>

@@ -85,6 +85,9 @@ class Users extends Model
 
         // The account is not banned by default
         $this->banned = 'N';
+
+        // Assign Code
+        $this->code = $this->name . '' . $this->id;
     }
 
     /**
@@ -99,10 +102,10 @@ class Users extends Model
             $emailConfirmation->save();
         }
 
-        $coins = new Coins();
+        /*$coins = new Coins();
         $coins->users_id = $this->id;
         $coins->value = 30;
-        $coins->save();
+        $coins->save();*/
     }
 
     /**

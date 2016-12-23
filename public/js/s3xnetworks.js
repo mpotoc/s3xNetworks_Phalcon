@@ -148,8 +148,10 @@ function loadMLM (parentId, data, val) {
         if (member.parentId === parentId) {
             var parent = parentId ? $("#containerFor" + parentId) : $("#mainContainer"),
                 memberId = member.memberId,
-                metaInfo = member.name + " ($" + member.amount + ")";
-            parent.append("<div class='containerMlm' id='containerFor" + memberId + "'><div class='member'>" + memberId +
+                metaInfo = "<table style='text-align: left !important;'><tr><td>Name: </td><td style='padding-left: 5px;'>"
+                    + member.name + "</td></tr><tr><td>Revenue: </td><td style='padding-left: 5px;'>" + member.amount + " EUR"
+                    + "</td></tr></<table>";
+            parent.append("<div class='containerMlm' id='containerFor" + memberId + "'><div class='member'>" +
             "<div class='metaInfo'>" + metaInfo + "</div></div></div>");
             loadMLM (memberId, data);
         }
@@ -166,10 +168,6 @@ $(document).ready(function() {
         contentType: "application/json",
         url: '/private/loadMlm/',
         data: JSON.stringify(value),
-        /*beforeSend: function() {
-            $('#working_city').html("<option id='ajax_loader'>loading ...</option>");
-            $('#ajax_loader').addClass('loadinggif');
-        },*/
         success: function(response) {
             parsed = $.parseJSON(response);
             loadMLM(null, parsed, value);

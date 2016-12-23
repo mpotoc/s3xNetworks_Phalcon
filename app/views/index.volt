@@ -84,6 +84,54 @@
 			</div>
 		</div>
 	</div>
+	<!-- Earnings Modal -->
+	<div class="modal" id="earningsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Earnings</h4>
+				</div>
+				<div class="modal-body">
+					Hello!<br><br>
+					Now you are member of the best escort directory.<br><br>
+					When you registered you got your bonus code, which gives you a possibility to earn some more money. Please continue reading. <br><br>
+					For you we invented special system that gives you the possibility to earn additional money. It is called s3xBusiness.
+					If you want to be part of this system you have to pay for packages at least 200 EUR each month. Then you will be placed in the
+					system where you will be able to acquire new members with your bonus code (if someone registers with your bonus code and pays
+					at least 200 EUR for packages that one will be under your system) or you will get new members when they register with no bonus
+					code (system will automatically place them on the first empty spot in the system). <br><br>
+
+					System is placed so that you have options:
+					In 1. depth add 2 members, in 2. depth add 4 members and do on until you have full 5 levels deep and have 63 members including
+					yourself in the system. You get total of 10% of the revenue your system did, including your payments. <br><br>
+
+					Let's say you have:<br><br>
+					63 members (with yourself) already in your system and each of you paid only 200 EUR for all ads they have, you would get: <br><br>
+					63 x 200 EUR = 12600 EUR<br><br>
+					Your earning:<br>
+					10% of 12600 EUR = 1260 EUR<br><br>
+
+					If you pay each more money then 200 EUR for your ads each month, then the earnings can be a lot more then just 1260 EUR.<br><br>
+
+					Of course it does not have to be that your system ends with only 63 members (including you). You can create a new account anytime
+					you want and pay ads from that account also (min 200 EUR) and you will be able to start making another 63 member scheme. We allow
+					that each makes as many accounts as he want. <br><br>
+
+					All you have pay attention is that you must pay each month for at least 200 EUR for ads if you want to earn this money generated
+					by your down lines. If this requirement is not met you will not earn anything this month. And if this goes for 2 month you will be
+					removed from earnings system and lose your spot.<br><br>
+
+					When you register you get either first empty spot in the system or first
+					empty spot in the scheme of your up line (if you entered in the registration form bonus code). Then you have 24H time to
+					make payment for your ad/ads for at least 200 EUR, otherwise it can happen that you lose a good top spot, because a lot
+					of registrations happens in the meantime. <br><br>
+
+					We payout the earning from fourth day next month.
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- Enter/Leave Modal -->
 	<div class="modal fade" id="myModal">
 		<div class="modalcontent">

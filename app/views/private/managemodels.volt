@@ -22,9 +22,9 @@
             </div>
 
             <div id="sgnup4" style="margin-bottom: 30px;">
-                Here you can manage your escort profiles. You are able to edit profile, edit gallery, deactivate and delete each of your own escort profile
-                anytime you want. You can also see which of the profile is currently active and for how long the package is payed. You can also easily move
-                paid package from one profile to another.
+                Here you can manage your escort profiles. You are able to edit profile, edit gallery, deactivate and delete each of your escort profile
+                anytime you want. You can also see which of the profile is currently active and for how long the package is payed. You can also easily
+                move paid package from one profile to another.
             </div>
 
             <div id="sgnup4" style="margin-bottom: 30px;">

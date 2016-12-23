@@ -216,7 +216,7 @@
                     cities in "Working cities:" and change country in dropdown "Working country:", then your current
                     selected cities are removed. You have to add new cities. You can add MAX of 4 cities. If you want to remove a selection
                     in "Working cities:" please double click on the city you want to remove.
-                    Your ad will be seen in all 4 cities. The first city in "Working cities:" is the main city for your add. Please choose wisely.
+                    Your ad will be seen in all 4 cities. The first city in "Working cities:" is the main city for your add.
                     <br/><br/>
                     ATTENTION: If you change "Working country:" you will have to either not save new changes or select back the cities you
                     had before when you edited your profile, if you want to keep "Working cities:" as it was before.

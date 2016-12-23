@@ -10,7 +10,7 @@
 
             <div id="sgnup1">
                 <div id="sgnupb">
-                    <a href="../../private/coins">
+                    <a href="../../private/payment">
                         <button type="button" class="myButton4" title="Private Area">
                             <i class="glyphicon glyphicon-arrow-left"></i> Back
                         </button>
@@ -30,9 +30,9 @@
                 <div id="showid" style="padding-left: 10px;"><div id="shownameid2">Payment options</div></div>
 
                 <div id="coinstext1">
-                    You have to pay <b style="color: #8a2a21;">{{ price }}</b> EUR for ordered <b style="color: #8a2a21;">{{ coins }}</b> s3xcoins.
-                    Please select one of the payment options below and complete the payment. If you select one of the first three options
-                    account will be credited instantly. If you select one of next three options your account will be credited once we receive
+                    You have to pay <b style="color: #8a2a21;">{{ price }}</b> EUR for ordered packages. <br><br>
+                    Please select one of the payment options below and complete the payment. If you select one of the first three options,
+                    package will be active instantly. If you select one of next three options your package will be active once we receive
                     your money.
                 </div>
 

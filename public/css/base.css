@@ -3035,13 +3035,13 @@ small
 	position: relative;
 	z-index: 1;
 	cursor: default;
-	width: 22px;
-	font-size: 12px;
+	background: url('../images/mlmMan.png') no-repeat center;
+	width: 15px;
+	height: 15px;
 	margin: auto;
-	border: 1px solid #5e5e5e;
-	-moz-border-radius: 50px;
+	/*-moz-border-radius: 50px;
 	-webkit-border-radius: 50px;
-	border-radius: 50px;
+	border-radius: 50px;*/
 }
 /*.member:after {
     display: block;
@@ -3063,8 +3063,9 @@ small
 	position: absolute;
 	bottom: 100%;
 	left: 50%;
+	font-size: 12px;
 	padding: 5px;
-	width: 100px;
+	width: 150px;
 }
 .member:hover .metaInfo {
 	display: block;

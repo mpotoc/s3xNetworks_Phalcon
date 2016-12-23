@@ -25,8 +25,6 @@
             <div id="sgnup4" style="margin-bottom: 30px;">
                 All input fields marked with '<b>*</b>' are mandatory. You have to select a model, then select a package you want to buy for this
                 model. After that you have to select the '<b>Length</b>' of the selected package and click '<b>Buy package</b>' button.
-                If you want to buy package and do not have enough s3xcoins, please buy s3xcoins at the '<b>My s3xcoins</b>' section below. All
-                packages can be bought only with s3xcoins.
             </div>
 
             <div id="sgnup4" style="margin-bottom: 30px;">
@@ -35,11 +33,7 @@
                 <div id="coinstext1">
                     Remember each package have also it's own bonuses. If you select <b style="color: #79bbff; text-shadow: none;">Diamond package</b>
                     your ad will be amongst top listings on our <a href="{{ url.getBaseUri() }}">www.{{ mainLogo }}.com</a> escort directory and will
-                    be visible to clients before any other package. <b style="color: #79bbff; text-shadow: none;">Diamond package</b> returns you 20%
-                    of paid s3xcoins to your s3xcoins accunt, <b style="color: goldenrod; text-shadow: none;">Gold package</b> returns 10% of paid
-                    s3xcoins to your account and <b style="color: #c0c0c0; text-shadow: none;">Silver package</b> returns 5% of paid s3xcoins to your
-                    account. <b style="color: #00247d; text-shadow: none;">FREE package</b> does not return anything, because it is FREE of charge,
-                    but your ad will be at the bottom of the listings.
+                    be visible to clients before any other package. FREE package will be at the bottom of the listings.
                 </div>
 
                 <div class="profile1">
@@ -163,7 +157,7 @@
                 </div>
             </div>
 
-            <div id="sgnup4" style="margin-bottom: 30px; padding-bottom: 0px !important;">
+            <!--<div id="sgnup4" style="margin-bottom: 30px; padding-bottom: 0px !important;">
                 <div id="showid" style="padding-left: 10px;"><div id="shownameid2">My s3xcoins</div></div>
 
                 <div id="coinstext1">
@@ -182,7 +176,7 @@
                     <br />
                     <br />
                 </div>
-            </div>
+            </div>-->
         </form>
 
         </div>

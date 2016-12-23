@@ -94,7 +94,7 @@ class SessionController extends ControllerBase
                         $user = new Users();
                         $salt = $this->request->getPost('password');
                         $code = $this->request->getPost('code');
-                        $aff_code = uniqid('s3x', true);
+                        //$aff_code = uniqid('s3x', true);
 
                         if (!$param)
                             $param = 2;
@@ -118,9 +118,9 @@ class SessionController extends ControllerBase
                             'email' => $email,
                             'password' => $this->security->hash($this->request->getPost('password')),
                             'salt' => $salt,
-                            'profiles_id' => $param,
-                            'code' => $aff_code
+                            'profiles_id' => $param
                         ));
+                        //'code' => $aff_code
 
                         if ($user->save()) {
                             return $this->response->redirect('login');

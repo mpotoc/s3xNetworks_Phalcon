@@ -16,6 +16,7 @@ use Phalcon\Validation\Validator\Email;
 use Phalcon\Validation\Validator\Identical;
 use Phalcon\Validation\Validator\StringLength;
 use Phalcon\Validation\Validator\Confirmation;
+use Phalcon\Db\RawValue as RawConcat;
 
 class ChangeModelForm extends Form
 {
@@ -24,11 +25,12 @@ class ChangeModelForm extends Form
         $user = $this->auth->getUser();
 
         $adverts = new Select('adverts', Ad::find(array(
-            'users_id = ' . $user->id . ' and ((advertisement = "N" and deleted = "N" and active = "Y") or end_date < now())',
+            'columns' => 'id,'.new RawConcat('CONCAT (showname, "-", id, " ", working_country) AS conName'),
+            'users_id = ' . $user->id . ' and deleted = "N" and active = "Y" and (advertisement = "N" or end_date < now())',
             'order' => 'showname ASC'
-        )),
+            )),
             array('useEmpty' => true, 'emptyText' =>  'Please select ...',
-                'using' => array('id', 'showname')
+                'using' => array('id', 'conName')
             ));
         $adverts->setLabel('Models:');
         $adverts->addValidators(array(

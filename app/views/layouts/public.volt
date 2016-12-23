@@ -2,8 +2,8 @@
 <div id="container">
   <section id="menubar">
     <a href="{{ url.getBaseUri() }}"><img id="logo-main" src="../../img/{{ mainLogo }}.png" alt="Escort {{ wcountry }}"  title="{{ mainTitle }}" /></a>
-    <a href="https://www.facebook.com/s3xnetworks" target="_blank"><img id="fb1" src="../../img/social/fb.png" title="Facebook" /></a>
-    <!--<img id="tw1" src="../../img/social/twitter.png" title="Twitter" />-->
+    <!--<a href="https://www.facebook.com/s3xnetworks" target="_blank"><img id="fb1" src="../../img/social/fb.png" title="Facebook" /></a>
+    <img id="tw1" src="../../img/social/twitter.png" title="Twitter" />-->
     <a href="https://vk.com/s3xnetworks" target="_blank"><img id="vk1" src="../../img/social/vk.png" title="https://vk.com/s3xnetworks" /></a>
     {% if not(logged_in is empty) %}
     <a href="{{ url.getBaseUri() }}logout">
@@ -74,11 +74,11 @@
     <!--<div id="rigth-row">
       <a href="../../signup"><img src="../../img/signup.png" /></a>
     </div>
-    <br />-->
+    <br />
     <div id="right-row">
       <a href="../../bonus"><img src="../../img/bonus.png" alt="Escort {{ wcountry }}"  title="Escort {{ wcountry }}" /></a>
     </div>
-    <br />
+    <br />-->
     <a href="../../register"><img src="../../img/freepackage.png" alt="Escort {{ wcountry }}"  title="Escort {{ wcountry }}" /></a>
     <br />
     <div id="right-row2">

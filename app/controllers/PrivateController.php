@@ -66,7 +66,7 @@ class PrivateController extends ControllerBase
 
             $user = $this->auth->getUser();
 
-            $coins = Coins::find(array(
+            /*$coins = Coins::find(array(
                 'users_id = ' . $user->id
             ));
             $sum_coins = 0;
@@ -76,7 +76,7 @@ class PrivateController extends ControllerBase
                 $sum_coins += $c->value;
             }
 
-            $this->view->coins = $sum_coins;
+            $this->view->coins = $sum_coins;*/
         }
         catch (AuthException $e)
         {
@@ -89,56 +89,89 @@ class PrivateController extends ControllerBase
         try
         {
             $this->persistent->conditions = null;
-            $sum = 0;
-            $cSum = 0;
-
+            $status = 'Inactive';
             $user = $this->auth->getUser();
 
-            $sql = 'SELECT p.json FROM users u left join payments p on u.id = p.users_id WHERE u.parent_id = ' . $user->id;
+            $sql = 'SELECT sum(r.sum) as myTotal FROM revenue r WHERE r.users_id = ' . $user->id;
             $conn = $this->db;
             $data = $conn->query($sql);
             $data->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
-            $ads = $data->fetchAll();
+            $myTotal = $data->fetchAll();
 
-            $sql1 = 'SELECT u.name, u.email FROM users u WHERE u.parent_id = ' . $user->id;
+            if ($myTotal[0]['myTotal'] >= 200)
+            {
+                $status = 'Active';
+            }
+
+            $sql2 = 'SELECT level FROM mlm WHERE users_id =' . $user->id;
+            $conn2 = $this->db;
+            $data2 = $conn2->query($sql2);
+            $data2->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
+            $data3 = $data2->fetchAll();
+
+            $sql1 = 'SELECT sum(r.sum) as totRevenue FROM mlm m inner join revenue r on m.users_id = r.users_id where m.level in ('.$data3[0]['level'].','.$data3[0]['level'].'+1,'.$data3[0]['level'].'+2,'.$data3[0]['level'].'+3,'.$data3[0]['level'].'+4,'.$data3[0]['level'].'+5)';
             $conn1 = $this->db;
             $data1 = $conn1->query($sql1);
             $data1->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
-            $ads1 = $data1->fetchAll();
+            $totRevenue = $data1->fetchAll();
 
-            for ($i = 0; $i < count($ads); $i++)
-            {
-                $json[] = json_decode($ads[$i]['json'], true);
-            }
+            $myEarnings = $totRevenue[0]['totRevenue'] * 0.1;
 
-            foreach ($json as $s)
-            {
-                $sum += $s['amount'];
-            }
-            $sum = $sum * 0.5;
-
-            foreach ($json as $a)
-            {
-                $amount[] = $a['amount'];
-            }
-
-            foreach ($json as $d)
-            {
-                $desc[] = explode(' ', $d['description']);
-            }
-
-            for ($j = 0; $j < count($json); $j++)
-            {
-                $aDesc = $desc[$j];
-                $coinSum = (int)$aDesc[0] - $amount[$j];
-                $cSum += $coinSum;
-            }
-            $cSum = $cSum * 0.5;
-
-            $this->view->cSum = $cSum;
-            $this->view->sum = $sum;
+            $this->view->status = $status;
+            $this->view->myTotal = $myTotal[0]['myTotal'];
+            $this->view->totRevenue = $totRevenue[0]['totRevenue'];
+            $this->view->myEarnings = $myEarnings;
+            $this->view->wdTotal = 0;
+            $this->view->wdCurrent = 0;
+            $this->view->wdStatus = 'Waiting request';
             $this->view->userId = $user->id;
-            $this->view->members= $ads1;
+            $this->view->name= $user->name;
+        }
+        catch (AuthException $e)
+        {
+            $this->flash->error($e->getMessage());
+        }
+    }
+
+    public function loadMlmAction()
+    {
+        try
+        {
+            $this->view->disable();
+
+            if($this->request->isPost() == true)
+            {
+                if ($this->request->isAjax() == true)
+                {
+                    try
+                    {
+                        $val = $this->request->getJsonRawBody();
+                        $sql1 = 'SELECT level FROM mlm WHERE users_id =' . $val;
+                        $conn1 = $this->db;
+                        $data2 = $conn1->query($sql1);
+                        $data2->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
+                        $data3 = $data2->fetchAll();
+
+                        $sql = 'SELECT m.users_id, m.parent_id, m.level, sum(r.sum) as total, u.name FROM mlm m inner join revenue r on m.users_id = r.users_id inner join users u on m.users_id = u.id where m.level in ('.$data3[0]['level'].','.$data3[0]['level'].'+1,'.$data3[0]['level'].'+2,'.$data3[0]['level'].'+3,'.$data3[0]['level'].'+4,'.$data3[0]['level'].'+5) group by m.users_id';
+                        $conn = $this->db;
+                        $data = $conn->query($sql);
+                        $data->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
+                        $data1 = $data->fetchAll();
+                        $resData = array();
+
+                        foreach ($data1 as $result)
+                        {
+                            array_push($resData, array('memberId' => $result['users_id'], 'parentId' => $result['parent_id'], 'amount' => $result['total'], 'name' => $result['name'], 'level' => $result['level']));
+                        }
+
+                        echo json_encode($resData);
+                    }
+                    catch (AuthException $e)
+                    {
+                        $this->flash->error($e->getMessage());
+                    }
+                }
+            }
         }
         catch (AuthException $e)
         {
@@ -497,13 +530,13 @@ class PrivateController extends ControllerBase
             $data1->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
             $aads = $data1->fetchAll();
 
-            $sql2 = 'SELECT a.*, g.path, c.country_iso_code from ad a inner join gallery g on a.id = g.ad_id inner join country c on a.working_country = c.country_name where a.users_id = ' . $user->id . ' and a.advertisement = "N" and a.active = "N" and a.deleted = "N" group by a.id order by a.working_country ASC';
+            $sql2 = 'SELECT a.*, g.path, c.country_iso_code from ad a inner join gallery g on a.id = g.ad_id inner join country c on a.working_country = c.country_name where a.users_id = ' . $user->id . ' and a.active = "N" and a.deleted = "N" and (a.advertisement = "N" or end_date < now()) group by a.id order by a.working_country ASC';
             $conn2 = $this->db;
             $data2 = $conn2->query($sql2);
             $data2->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
             $iads = $data2->fetchAll();
 
-            $sql3 = 'SELECT a.*, c.country_iso_code from ad a inner join country c on a.working_country = c.country_name where a.users_id = ' . $user->id . ' and a.advertisement = "N" and a.active = "N" and a.deleted = "N" and a.photos = "N" group by a.id order by a.working_country ASC';
+            $sql3 = 'SELECT a.*, c.country_iso_code from ad a inner join country c on a.working_country = c.country_name where a.users_id = ' . $user->id . ' and a.active = "N" and a.deleted = "N" and a.photos = "N" and (a.advertisement = "N" or end_date < now()) group by a.id order by a.working_country ASC';
             $conn3 = $this->db;
             $data3 = $conn3->query($sql3);
             $data3->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
@@ -871,7 +904,7 @@ class PrivateController extends ControllerBase
             //$coins = $packages->coins;
             $micro = sprintf("%06d",(microtime(true) - floor(microtime(true))) * 1000000);
 
-            $json = '{"version":"3","public_key":"'.$this->config->application->liqpay_public.'","action":"pay","amount":'.$price.',"currency":"EUR","description":"Diamond","order_id":"'.$user->id.'|'.$param.'|'.$price.'|'.$micro.'","language":"en","server_url":"http://'.$_SERVER['SERVER_NAME'].'/callback.php","result_url":"http://'.$_SERVER['SERVER_NAME'].'/private/result"}';
+            $json = '{"version":"3","public_key":"'.$this->config->application->liqpay_public.'","action":"pay","amount":'.$price.',"currency":"EUR","description":"Diamond","order_id":"'.$user->id.'|'.$param.'|'.$price.'|'.$micro.'","language":"en","sandbox":"1","server_url":"http://'.$_SERVER['SERVER_NAME'].'/callback.php","result_url":"http://'.$_SERVER['SERVER_NAME'].'/private/result"}';
             // after language "sandbox":"1",
 
             $data = base64_encode($json);
@@ -1384,52 +1417,6 @@ class PrivateController extends ControllerBase
                         }
 
                         echo $this->jsonEncode($resData);
-                    }
-                    catch (AuthException $e)
-                    {
-                        $this->flash->error($e->getMessage());
-                    }
-                }
-            }
-        }
-        catch (AuthException $e)
-        {
-            $this->flash->error($e->getMessage());
-        }
-    }
-
-    public function loadMlmAction()
-    {
-        try
-        {
-            $this->view->disable();
-
-            if($this->request->isPost() == true)
-            {
-                if ($this->request->isAjax() == true)
-                {
-                    try
-                    {
-                        $val = $this->request->getJsonRawBody();
-                        $sql1 = 'SELECT level FROM mlm WHERE users_id =' . $val;
-                        $conn1 = $this->db;
-                        $data2 = $conn1->query($sql1);
-                        $data2->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
-                        $data3 = $data2->fetchAll();
-
-                        $sql = 'SELECT m.users_id, m.parent_id, m.level, r.sum, u.name FROM mlm m inner join revenue r on m.users_id = r.users_id inner join users u on m.users_id = u.id where m.level in ('.$data3[0]['level'].','.$data3[0]['level'].'+1,'.$data3[0]['level'].'+2,'.$data3[0]['level'].'+3,'.$data3[0]['level'].'+4,'.$data3[0]['level'].'+5)';
-                        $conn = $this->db;
-                        $data = $conn->query($sql);
-                        $data->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
-                        $data1 = $data->fetchAll();
-                        $resData = array();
-
-                        foreach ($data1 as $result)
-                        {
-                            array_push($resData, array('memberId' => $result['users_id'], 'parentId' => $result['parent_id'], 'amount' => $result['sum'], 'name' => $result['name'], 'level' => $result['level']));
-                        }
-
-                        echo json_encode($resData);
                     }
                     catch (AuthException $e)
                     {

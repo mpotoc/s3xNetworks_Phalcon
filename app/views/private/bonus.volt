@@ -19,26 +19,65 @@
                     </a>
                 </div>
                 <div id="sgnupa">
-                    <h2>My Bonus Downlines</h2>
+                    <h2>s3xScheme</h2>
                 </div>
             </div>
 
             <div id="sgnup4" style="margin-bottom: 30px;">
-                Here you can see members that registered under your bonus code. You can also see your earnings your members accumulated
-                for you. You have two different earnings, one that can be directly withdrawn to your selected account (Bank account, Credit Card,
-                Western Union, MoneyGram) and the second earnings which can be only spent on your models.
+                Here you can see your 5 levels deep s3xScheme, where members that registered with your bonus code plus auto placed members under your
+                s3xScheme are visible. You can also see your earnings that your members accumulated for you. You get 10% of all revenue each person under
+                your s3xScheme did last month, including your own revenue. The period for accumulating revenue is from first day of the month to last day of
+                the month. You can make Withdraw request any day after fourth day of the month (we have a 72H pending period for withdrawals). Click button
+                "Earnings" to read more about it.<br><br>
+                <button type="button" class="myButton6" data-toggle="modal" data-target="#earningsModal">
+                    Earnings
+                </button>
+
             </div>
 
             <div id="sgnup4" style="margin-bottom: 30px;">
-                <div id="showid" style="padding-left: 10px;"><div id="shownameid2">My Downline Earnings</div></div>
+                <div id="showid" style="padding-left: 10px;"><div id="shownameid2">s3xScheme Info</div></div>
 
                 <div id="coinstext1">
-                    You have earned from your members {{ sum }} EUR, which you can withdraw or spend for your models. <br><br>
+                    <table>
+                        <tr>
+                            <td>Name:</td>
+                            <td style="padding-left: 10px;">{{ name }}</td>
+                        </tr>
+                        <tr>
+                            <td>Status:</td>
+                            <td style="padding-left: 10px;">{{ status }}</td>
+                        </tr>
+                        <tr>
+                            <td>My deposits:</td>
+                            <td style="padding-left: 10px;">{{ myTotal }} EUR</td>
+                        </tr>
+                        <tr>
+                            <td>Total scheme revenue:</td>
+                            <td style="padding-left: 10px;">{{ totRevenue }} EUR</td>
+                        </tr>
+                        <tr>
+                            <td>My Earnings:</td>
+                            <td style="padding-left: 10px;">{{ myEarnings }} EUR</td>
+                        </tr>
+                        <tr>
+                            <td>Withdrawn total:</td>
+                            <td style="padding-left: 10px;">{{ wdTotal }} EUR</td>
+                        </tr>
+                        <tr>
+                            <td>Withdrawal request:</td>
+                            <td style="padding-left: 10px;">{{ wdCurrent }} EUR</td>
+                        </tr>
+                        <tr>
+                            <td>Withdrawal status:</td>
+                            <td style="padding-left: 10px;">{{ wdStatus }}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
             <div id="sgnup4" style="margin-bottom: 30px;">
-                <div id="showid" style="padding-left: 10px;"><div id="shownameid2">My 1/5 Bonus Scheme</div></div>
+                <div id="showid" style="padding-left: 10px;"><div id="shownameid2">s3xScheme Overview</div></div>
                 <div id="mainContainer" class="clearfix"></div>
             </div>
 

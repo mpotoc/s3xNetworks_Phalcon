@@ -26,7 +26,7 @@ class PaymentForm extends Form
 
         $adverts = new Select('adverts', Ad::find(array(
             'columns' => 'id,'.new RawConcat('CONCAT (showname, "-", id, " ", working_country) AS conName'),
-            'users_id = ' . $user->id . ' and ((advertisement = "N" and deleted = "N" and active = "Y") or end_date < now())',
+            'users_id = ' . $user->id . ' and deleted = "N" and active = "Y" and (advertisement = "N" or end_date < now())',
             'order' => 'showname ASC'
             )),
             array('useEmpty' => true, 'emptyText' =>  'Please select ...',

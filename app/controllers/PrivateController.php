@@ -668,6 +668,97 @@ class PrivateController extends ControllerBase
         }
     }
 
+    public function vipAction()
+    {
+        try
+        {
+            $this->persistent->conditions = null;
+
+            $user = $this->auth->getUser();
+
+            $coins = Coins::find(array(
+                'users_id = ' . $user->id
+            ));
+            $sum_coins = 0;
+
+            foreach ($coins as $c)
+            {
+                $sum_coins += $c->value;
+            }
+
+            $this->view->coins = $sum_coins;
+
+            $form = new VipForm();
+
+            if ($this->request->isPost())
+            {
+                if ($form->isValid($this->request->getPost()) == false)
+                {
+                    foreach ($form->getMessages() as $message)
+                    {
+                        $this->flash->error($message);
+                    }
+                }
+                else
+                {
+                    $days = $this->request->getPost('vipDays');
+                    $packageId = 10;
+                    $ad_id = $this->request->getPost('adverts');
+
+                    $myPack = Packages::findFirst(array(
+                        'id = ' . $packageId
+                    ));
+
+                    $price = $myPack->price*$days;
+                    $new_value = ($price*(-1));
+
+                    if ($sum_coins >= $price)
+                    {
+                        $d = new \DateTime();
+                        $d1 = $d->format("Y-m-d H:i:s");
+                        $endDate = date("Y-m-d H:i:s", (time()+(86400*$days)));
+
+                        $advertising = new Advertising();
+                        $advertising->users_id = $user->id;
+                        $advertising->ad_id = $ad_id;
+                        $advertising->packages_id = $packageId;
+                        $advertising->date = $d1;
+                        $advertising->end_date = $endDate;
+                        $advertising->days = $days;
+
+                        if ($advertising->save())
+                        {
+                            $coins = new Coins();
+                            $coins->users_id = $user->id;
+                            $coins->value = $new_value;
+                            $coins->save();
+
+                            $this->flash->success('You have successfully bought package '.$advertising->packages->name.' for your model '.$advertising->ad->showname.' with s3xcoins.');
+                            return $this->response->redirect('private');
+                        }
+                        else
+                        {
+                            foreach ($advertising->getMessages() as $message)
+                            {
+                                $this->flash->error($message);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        $this->flash->error('You do not have enough s3xcoins to pay advertising for this model. Buy more s3xcoins!');
+                    }
+                }
+            }
+
+            $this->view->form = $form;
+        }
+        catch (AuthException $e)
+        {
+            $this->flash->error($e->getMessage());
+        }
+    }
+
     public function paymentOldAction() {
         try {
             $this->persistent->conditions = null;
@@ -761,97 +852,6 @@ class PrivateController extends ControllerBase
             $this->view->form = $form;
         }
         catch (AuthException $e) {
-            $this->flash->error($e->getMessage());
-        }
-    }
-
-    public function vipAction()
-    {
-        try
-        {
-            $this->persistent->conditions = null;
-
-            $user = $this->auth->getUser();
-
-            $coins = Coins::find(array(
-                'users_id = ' . $user->id
-            ));
-            $sum_coins = 0;
-
-            foreach ($coins as $c)
-            {
-                $sum_coins += $c->value;
-            }
-
-            $this->view->coins = $sum_coins;
-
-            $form = new VipForm();
-
-            if ($this->request->isPost())
-            {
-                if ($form->isValid($this->request->getPost()) == false)
-                {
-                    foreach ($form->getMessages() as $message)
-                    {
-                        $this->flash->error($message);
-                    }
-                }
-                else
-                {
-                    $days = $this->request->getPost('vipDays');
-                    $packageId = 10;
-                    $ad_id = $this->request->getPost('adverts');
-
-                    $myPack = Packages::findFirst(array(
-                        'id = ' . $packageId
-                    ));
-
-                    $price = $myPack->price*$days;
-                    $new_value = ($price*(-1));
-
-                    if ($sum_coins >= $price)
-                    {
-                        $d = new \DateTime();
-                        $d1 = $d->format("Y-m-d H:i:s");
-                        $endDate = date("Y-m-d H:i:s", (time()+(86400*$days)));
-
-                        $advertising = new Advertising();
-                        $advertising->users_id = $user->id;
-                        $advertising->ad_id = $ad_id;
-                        $advertising->packages_id = $packageId;
-                        $advertising->date = $d1;
-                        $advertising->end_date = $endDate;
-                        $advertising->days = $days;
-
-                        if ($advertising->save())
-                        {
-                            $coins = new Coins();
-                            $coins->users_id = $user->id;
-                            $coins->value = $new_value;
-                            $coins->save();
-
-                            $this->flash->success('You have successfully bought package '.$advertising->packages->name.' for your model '.$advertising->ad->showname.' with s3xcoins.');
-                            return $this->response->redirect('private');
-                        }
-                        else
-                        {
-                            foreach ($advertising->getMessages() as $message)
-                            {
-                                $this->flash->error($message);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        $this->flash->error('You do not have enough s3xcoins to pay advertising for this model. Buy more s3xcoins!');
-                    }
-                }
-            }
-
-            $this->view->form = $form;
-        }
-        catch (AuthException $e)
-        {
             $this->flash->error($e->getMessage());
         }
     }

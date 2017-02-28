@@ -76,7 +76,7 @@ class SignUpForm extends Form
         $terms = new Check('termscond', array(
             'value' => 'yes'
         ));
-        $terms->setLabel('Accept terms and conditions');
+        $terms->setLabel('Accept term and conditions');
         $terms->addValidator(new Identical(array(
             'value' => 'yes',
             'message' => 'Terms and conditions must be accepted'

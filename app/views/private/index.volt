@@ -58,9 +58,11 @@
                     <!--<a href="{{ url.getBaseUri() }}private/vip" class="myButton6">
                         <i class="icon-shopping-cart"></i> Buy VIP
                     </a>&nbsp;&nbsp;-->
+                    {% if mlm > 0 %}
                     <a href="{{ url.getBaseUri() }}private/bonus" class="myButton6">
                         <i class="icon-trophy"></i> s3xScheme
                     </a>&nbsp;&nbsp;
+                    {% endif %}
                     <!--<a href="{{ url.getBaseUri() }}private/coins">
                         <div id="private2">
                             <i class="icon-trophy privateb"></i><br>s3xcoins

@@ -66,17 +66,13 @@ class PrivateController extends ControllerBase
 
             $user = $this->auth->getUser();
 
-            /*$coins = Coins::find(array(
-                'users_id = ' . $user->id
-            ));
-            $sum_coins = 0;
+            $sql = 'SELECT count(*) as myTotal FROM mlm WHERE users_id =' . $user->id;
+            $conn = $this->db;
+            $data = $conn->query($sql);
+            $data->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
+            $myTotal = $data->fetchAll();
 
-            foreach ($coins as $c)
-            {
-                $sum_coins += $c->value;
-            }
-
-            $this->view->coins = $sum_coins;*/
+            $this->view->mlm = $myTotal[0]['myTotal'];
         }
         catch (AuthException $e)
         {
@@ -126,6 +122,72 @@ class PrivateController extends ControllerBase
             $this->view->wdStatus = 'Waiting request';
             $this->view->userId = $user->id;
             $this->view->name= $user->name;
+        }
+        catch (AuthException $e)
+        {
+            $this->flash->error($e->getMessage());
+        }
+    }
+
+    public function withdrawAction()
+    {
+        try
+        {
+            $this->persistent->conditions = null;
+            $user = $this->auth->getUser();
+
+            if ($this->request->isPost())
+            {
+                if (!$user)
+                {
+                    $this->flash->error('There is an error!');
+                }
+                else
+                {
+                    $amount = $this->request->getPost('amount');
+
+                    //make save to DB for withdrawals and calculate on s3cheme what to add or remove from balances
+
+                    if ($amount != "" && $amount > 0) {
+                        $this->flash->success('Your withdraw request of ' . $amount . ' EUR was successfully accepted. We will send funds to your account within 48 hours.');
+                    } else {
+                        $this->flash->error('Your have to enter a valid positive number to make withdraw.');
+                    }
+                    return $this->response->redirect('private/bonus');
+                }
+            }
+        }
+        catch (AuthException $e)
+        {
+            $this->flash->error($e->getMessage());
+        }
+    }
+
+    public function documentsAction()
+    {
+        try
+        {
+            $this->persistent->conditions = null;
+            $user = $this->auth->getUser();
+
+            //check if there is any file
+            if ($this->request->hasFiles() == true)
+            {
+                if (!$user)
+                {
+                    $this->flash->error('There is an error!');
+                }
+                else
+                {
+                    $uploads = $this->request->getUploadedFiles();
+                    if (strlen($uploads[0]->getTempName()) > 0) {
+                        $this->flash->success('You have successfully uploaded documents. We will notify you of successful proof in 48 hours.');
+                    } else {
+                        $this->flash->error('You have to specify documents for upload.');
+                    }
+                    return $this->response->redirect('private/bonus');
+                }
+            }
         }
         catch (AuthException $e)
         {
@@ -900,11 +962,11 @@ class PrivateController extends ControllerBase
                 'id = ' . $param
             ));*/
 
-            $price = 200;
+            $price = 0.01;
             //$coins = $packages->coins;
             $micro = sprintf("%06d",(microtime(true) - floor(microtime(true))) * 1000000);
 
-            $json = '{"version":"3","public_key":"'.$this->config->application->liqpay_public.'","action":"pay","amount":'.$price.',"currency":"EUR","description":"Diamond","order_id":"'.$user->id.'|'.$param.'|'.$price.'|'.$micro.'","language":"en","sandbox":"1","server_url":"http://'.$_SERVER['SERVER_NAME'].'/callback.php","result_url":"http://'.$_SERVER['SERVER_NAME'].'/private/result"}';
+            $json = '{"version":"3","public_key":"'.$this->config->application->liqpay_public.'","action":"pay","amount":'.$price.',"currency":"EUR","description":"Diamond","order_id":"'.$user->id.'|'.$param.'|'.$price.'|'.$micro.'","language":"en","sandbox":"1","server_url":"http://'.$_SERVER['SERVER_NAME'].'/callback","result_url":"http://'.$_SERVER['SERVER_NAME'].'/private/result"}';
             // after language "sandbox":"1",
 
             $data = base64_encode($json);
@@ -938,7 +1000,6 @@ class PrivateController extends ControllerBase
             ));
 
             $this->view->price = $package->price;
-            $this->view->coins = $package->coins;
             $this->view->status = $payments[0]->status;
         }
         catch (AuthException $e)

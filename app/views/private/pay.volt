@@ -44,7 +44,7 @@
                     </div>
                 </div>
 
-                <div class="profile1">
+                <!--<div class="profile1">
                     <div class="profile2" style="color: #00247D;">PAYPAL: </div>
                     <div class="profile3">
                         <button id="paybutton" type="button" class="paypalbutton" title="Pay with PayPal"></button>
@@ -77,7 +77,7 @@
                     <div class="profile3">
                         <button id="paybutton" type="button" class="moneygrambutton" title="Pay with Moneygram"></button>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>

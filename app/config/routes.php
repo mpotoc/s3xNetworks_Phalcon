@@ -69,6 +69,16 @@ $router->add('/bonus', array(
     'action' => 'bonus'
 ));
 
+$router->add('/faq', array(
+    'controller' => 'index',
+    'action' => 'faq'
+));
+
+$router->add('/callback', array(
+    'controller' => 'index',
+    'action' => 'callback'
+));
+
 $router->add('/terms', array(
     'controller' => 'index',
     'action' => 'terms'

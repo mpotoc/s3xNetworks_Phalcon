@@ -41,6 +41,13 @@
                 <div id="coinstext1">
                     <table>
                         <tr>
+                            <td colspan="2">
+                                <button type="button" class="myButton6" data-toggle="modal" data-target="#docsModal">
+                                    Upload documents
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
                             <td>Name:</td>
                             <td style="padding-left: 10px;">{{ name }}</td>
                         </tr>
@@ -59,6 +66,13 @@
                         <tr>
                             <td>My Earnings:</td>
                             <td style="padding-left: 10px;">{{ myEarnings }} EUR</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button type="button" class="myButton6" data-toggle="modal" data-target="#withdrawModal">
+                                    Withdraw
+                                </button>
+                            </td>
                         </tr>
                         <tr>
                             <td>Withdrawn total:</td>

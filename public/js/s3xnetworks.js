@@ -509,13 +509,14 @@ liqPayCheckoutCallback = function(dataset, sig) {
         signature: sig,
         embedTo: "#liqpay_checkout",
         mode: "popup" // embed || popup
-    }).on("liqpay.callback", function(data){
-        window.location = '/private/result';
+    }).on("liqpay.callback", function(data) {
+        window.location.replace('/private/result');
+        //window.location = '/private/result';
         //console.log(data.status);
         //console.log(data);
-    }).on("liqpay.ready", function(data){
+    }).on("liqpay.ready", function(data) {
         // ready
-    }).on("liqpay.close", function(data){
+    }).on("liqpay.close", function(data) {
         // close
     });
 };

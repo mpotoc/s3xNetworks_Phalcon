@@ -60,7 +60,9 @@ class Acl extends Component
             'vip',
             'delete',
             'bonus',
-            'loadMlm'
+            'loadMlm',
+            'documents',
+            'withdraw'
         ),
         'member' => array(
             'index',

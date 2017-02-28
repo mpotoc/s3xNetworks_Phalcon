@@ -48,7 +48,7 @@
 					</div>
 					<div class="threefour">
 						<div class="three">
-							{{ form.render('termscond', ['class': 'terms_a', 'data-validetta': 'required']) }} {{ form.label('termscond', ['class': 'terms_acc']) }} *
+							{{ form.render('termscond', ['class': 'terms_a', 'data-validetta': 'required']) }} * <a href="../../terms">Accept terms and conditions</a>
 						</div>
 						<div class="four">{{ form.render('Sign Up') }}</div>
 					</div>

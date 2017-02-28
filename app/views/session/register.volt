@@ -13,15 +13,15 @@
                 <div id="register_left">
                     <p>Are you an escort, escort agency or a club?</p>
                     <img src="../../img/private.png" height="445px">
-                    <p>REGISTER FOR FREE AND GET THE MOST OUT<br/> OF OUR BONUSES!!!</p>
+                    <p>REGISTER FOR FREE!!!</p>
                 </div>
                 </a>
 
-                <a href="signup/5">
+                <a href="signup/2">
                 <div id="register_left">
                     <p>Are you a client?</p>
                     <img src="../../img/member.png" height="445px">
-                    <p>REGISTER FOR FREE!!!</p><br/>
+                    <p>REGISTER FOR FREE!!!</p>
                 </div>
                 </a>
 

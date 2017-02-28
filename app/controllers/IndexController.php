@@ -10,6 +10,7 @@ use Phalcon\Http\Request;
 use Adverts\Forms\CommentForm;
 use Adverts\Models\Comments;
 use Phalcon\Paginator\Adapter\Model as Paginator;
+use Phalcon\Logger\Adapter\File as Logger;
 
 //TO-DO
 /*
@@ -735,6 +736,49 @@ class IndexController extends ControllerBase
     public function bonusAction()
     {
 
+    }
+
+    public function faqAction()
+    {
+
+    }
+
+    public function callbackAction()
+    {
+        $conn = $this->db;
+
+        $sig = $_POST['signature'];
+        $xml_decode = base64_decode($_POST['data']);
+
+        $logger = new Logger($this->config->application->logsDir . "payments.log");
+        $logger->log($xml_decode);
+        $logger->close();
+
+        $arr = json_decode($xml_decode);
+
+        $myarr = explode('|', $arr->{'order_id'});
+        $users_id = $myarr[0];
+        $ad_id = 1;//$myarr[1];
+        $c_date = date("Y-m-d H:i:s", ($arr->{'create_date'} / 1000));
+        $e_date = date("Y-m-d H:i:s", ($arr->{'end_date'} / 1000));
+        //$price = $myarr[2];
+        //for testing only, remove after test and change sql1 to $price
+        //$price2 = 200;
+
+        $sql = "INSERT INTO payments (users_id, packages_id, json, payment_id, status, paytype, acq_id, order_id, liqpay_order_id, ip, create_date, end_date, transaction_id) VALUES (".$users_id.",".$ad_id.",'".$xml_decode."','".$arr->{'payment_id'}."','".$arr->{'status'}."','".$arr->{'paytype'}."','".$arr->{'acq_id'}."','".$arr->{'order_id'}."','".$arr->{'liqpay_order_id'}."','".$arr->{'ip'}."','".$c_date."','".$e_date."','".$arr->{'transaction_id'}."')";
+        $conn->query($sql);
+
+        if ($arr->{'status'} == 'success' || $arr->{'status'} == 'sandbox')
+        {
+            /*$sql1 = "INSERT INTO revenue r (r.users_id, r.sum) VALUES (".$users_id.", ".$price2.")";
+            $conn->query($sql1);
+
+            $sql2 = "SELECT sum(r.sum) as total FROM revenue r WHERE users_id = " . $users_id;
+            $data = $conn->query($sql2);
+            $total = $data->fetch_all();*/
+        }
+
+        $conn->close();
     }
 
     public function termsAction()

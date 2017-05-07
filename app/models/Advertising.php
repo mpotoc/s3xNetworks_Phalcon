@@ -56,7 +56,7 @@ class Advertising extends Model
         $package = $this->packages_id;
         $ad = Ad::findFirstById($this->ad_id);
 
-        if ($package == 10)
+        if ($package == 8)
         {
             $ad->vip = 'Y';
             $ad->end_vip = $this->end_date;

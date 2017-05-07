@@ -1000,8 +1000,9 @@ h1::after
 
 #showpackage
 {
-	float: right;
+	position: absolute;
 	margin-top: 0px;
+	right: 0px;
 }
 
 #showpackage1
@@ -1010,6 +1011,20 @@ h1::after
 	margin-top: 10px;
 	padding-left: 10px;
 	margin-right: 20px;
+}
+
+#showviews
+{
+	float: left;
+	margin-top: 0px;
+	padding-left: 15px;
+}
+
+.vipmodels
+{
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
 }
 
 #leftshow
@@ -1460,6 +1475,12 @@ h1::after
 	width: 148px;
 }
 
+.imgcontainer2
+{
+	position: relative;
+	width: 148px;
+}
+
 .portfolio-caption1
 {
 	float: left;
@@ -1520,21 +1541,21 @@ h1::after
 {
 	width: 148px;
 	height: 215px;
-	border: solid 1px goldenrod;
+	/*border: solid 1px goldenrod;*/
 }
 
 .thumbda
 {
 	width: 148px;
 	height: 215px;
-	border: solid 1px #00247D;
+	/*border: solid 1px #00247D;*/
 }
 
 .thumbdi
 {
 	width: 148px;
 	height: 215px;
-	border: solid 1px #ff2211;
+	/*border: solid 1px #ff2211;*/
 }
 
 #galbuttons
@@ -2722,6 +2743,14 @@ small
 .buttonx
 {
 	text-transform: uppercase;
+}
+
+.escort_likes
+{
+	position: absolute;
+	right: 50px;
+	top: 35px;
+	color: red;
 }
 
 #filter1

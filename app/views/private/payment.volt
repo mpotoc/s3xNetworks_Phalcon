@@ -31,7 +31,7 @@
                 <div id="showid" style="padding-left: 10px;"><div id="shownameid2">Packages</div></div>
 
                 <div id="coinstext1">
-                    Remember each package have also it's own bonuses. If you select <b style="color: #79bbff; text-shadow: none;">Diamond package</b>
+                    If you select <b style="color: #79bbff; text-shadow: none;">Diamond package</b>
                     your ad will be amongst top listings on our <a href="{{ url.getBaseUri() }}">www.{{ mainLogo }}.com</a> escort directory and will
                     be visible to clients before any other package. FREE package will be at the bottom of the listings.
                 </div>
@@ -54,10 +54,10 @@
                         Length:
                     </div>
                     <div class="profile4">
-                        <select id="packagesd" name="packagesd" class="form-control" data-validetta="packages" disabled>
+                        <select id="packagesd" name="packages" class="form-control" data-validetta="packages" disabled>
                             <option value="0">Please select ...</option>
-                            <option value="15">15 days</option>
-                            <option value="30">30 days</option>
+                            <option value="2">15 days</option>
+                            <option value="1">30 days</option>
                         </select>
                     </div>
                 </div>
@@ -66,12 +66,12 @@
                     <div class="profile5"><b>Price:</b></div>
                     <div class="profile4">
                         <input type="text" class="form-control" name="price_packd" id="price_packd" disabled />
-                        <input type="hidden" name="priced" id="priced" value="">
+                        <input type="hidden" name="price" id="priced" value="">
                     </div>
                 </div>
 
                 <div class="profile1">
-                    <div class="packageradio">{{ form.render('payment', ['value': '4', 'data-validetta': 'required']) }}
+                    <div class="packageradio">{{ form.render('payment', ['value': '3', 'data-validetta': 'required']) }}
                         <b style="color: goldenrod; text-shadow: none;">Gold Package</b>
                     </div>
                 </div>
@@ -81,10 +81,10 @@
                         Length:
                     </div>
                     <div class="profile4">
-                        <select id="packagesg" name="packagesg" class="form-control" data-validetta="packages" disabled>
+                        <select id="packagesg" name="packages" class="form-control" data-validetta="packages" disabled>
                             <option value="0">Please select ...</option>
-                            <option value="15">15 days</option>
-                            <option value="30">30 days</option>
+                            <option value="4">15 days</option>
+                            <option value="3">30 days</option>
                         </select>
                     </div>
                 </div>
@@ -93,12 +93,12 @@
                     <div class="profile5"><b>Price:</b></div>
                     <div class="profile4">
                         <input type="text" class="form-control" name="price_packg" id="price_packg" disabled />
-                        <input type="hidden" name="priceg" id="priceg" value="">
+                        <input type="hidden" name="price" id="priceg" value="">
                     </div>
                 </div>
 
                 <div class="profile1">
-                    <div class="packageradio">{{ form.render('payment', ['value': '7', 'data-validetta': 'required']) }}
+                    <div class="packageradio">{{ form.render('payment', ['value': '5', 'data-validetta': 'required']) }}
                         <b style="color: #c0c0c0; text-shadow: none;">Silver Package</b>
                     </div>
                 </div>
@@ -108,10 +108,10 @@
                         Length:
                     </div>
                     <div class="profile4">
-                        <select id="packagess" name="packagess" class="form-control" data-validetta="packages" disabled>
+                        <select id="packagess" name="packages" class="form-control" data-validetta="packages" disabled>
                             <option value="0">Please select ...</option>
-                            <option value="15">15 days</option>
-                            <option value="30">30 days</option>
+                            <option value="6">15 days</option>
+                            <option value="5">30 days</option>
                         </select>
                     </div>
                 </div>
@@ -120,12 +120,12 @@
                     <div class="profile5"><b>Price:</b></div>
                     <div class="profile4">
                         <input type="text" class="form-control" name="price_packs" id="price_packs" disabled />
-                        <input type="hidden" name="prices" id="prices" value="">
+                        <input type="hidden" name="price" id="prices" value="">
                     </div>
                 </div>
 
                 <div class="profile1">
-                    <div class="packageradio">{{ form.render('payment', ['value': '21', 'data-validetta': 'required']) }}
+                    <div class="packageradio">{{ form.render('payment', ['value': '7', 'data-validetta': 'required']) }}
                         <b style="color: #00247d; text-shadow: none;">FREE Package</b>
                     </div>
                 </div>
@@ -135,9 +135,9 @@
                         Length:
                     </div>
                     <div class="profile4">
-                        <select id="packagesf" name="packagesf" class="form-control" data-validetta="packages"   disabled>
+                        <select id="packagesf" name="packages" class="form-control" data-validetta="packages" disabled>
                             <option value="0">Please select ...</option>
-                            <option value="7">7 days</option>
+                            <option value="7">90 days</option>
                         </select>
                     </div>
                 </div>
@@ -146,7 +146,7 @@
                     <div class="profile5"><b>Price:</b></div>
                     <div class="profile4">
                         <input type="text" class="form-control" name="price_packf" id="price_packf" disabled />
-                        <input type="hidden" name="pricef" id="pricef" value="">
+                        <input type="hidden" name="price" id="pricef" value="">
                     </div>
                 </div>
 
@@ -156,27 +156,6 @@
                     <div class="profilesubmit">{{ form.render('Buy package') }}</div>
                 </div>
             </div>
-
-            <!--<div id="sgnup4" style="margin-bottom: 30px; padding-bottom: 0px !important;">
-                <div id="showid" style="padding-left: 10px;"><div id="shownameid2">My s3xcoins</div></div>
-
-                <div id="coinstext1">
-                    Here you can anytime buy more s3xcoins, for the future use, or if you lack s3xcoins to buy some of our packages or VIP on
-                    our <a href="{{ url.getBaseUri() }}">www.{{ mainLogo }}.com</a> escort directory.
-                </div>
-
-                <div class="profile1">
-                    <div class="profile2"><b>s3xcoins:</b> {{ coins }}</div>
-                    <div class="profile3">
-                        <a href="{{ url.getBaseUri() }}private/coins" class="myButton3">
-                            <i class="icon-shopping-cart"></i> Buy s3xcoins
-                        </a>
-                    </div>
-                    <br />
-                    <br />
-                    <br />
-                </div>
-            </div>-->
         </form>
 
         </div>

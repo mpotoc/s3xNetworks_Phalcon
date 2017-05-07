@@ -99,4 +99,15 @@ $router->add('/comment', array(
     'action' => 'comment'
 ));
 
+$router->add('/withdraw', array(
+    'controller' => 'private',
+    'action' => 'withdraw'
+));
+
+$router->add('/like/:params', array(
+    'controller' => 'index',
+    'action' => 'like',
+    'params' => 1
+));
+
 return $router;

@@ -17,6 +17,11 @@
                 <b style="color: #f24437 !important;">Skype:</b> <b style="color: #286090 !important;">s3xnetworks</b>
                 <br /><br />
                 <b style="color: #f24437 !important;">Viber/WhatsApp/WeChat/LINE:</b> <b style="color: #286090 !important;">+380 931 941 149</b>
+                <br /><br />
+                <b style="color: #f24437 !important;">Or you can write to one of ours moderators:</b> <br />
+                Michelle: <a href="mailto:michelle@s3xnetworks.com">michelle@s3xnetworks.com</a><br/>
+                Tony: <a href="mailto:tony@s3xnetworks.com">tony@s3xnetworks.com</a><br/>
+                Karina: <a href="mailto:karina@s3xnetworks.com">karina@s3xnetworks.com</a><br/>
             </div>
         </div>
     </div>

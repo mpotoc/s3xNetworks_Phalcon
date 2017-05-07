@@ -1,7 +1,0 @@
-{"action":"pay","payment_id":209270866,"status":"success","version":3,"type":"buy","paytype":"card","public_key":"i15035619760","acq_id":414963,
-"order_id":"12|16|150|499375","liqpay_order_id":"G5OFEKDM1468819197794644","description":"150 s3xcoins","sender_card_mask2":"516875*00",
-"sender_card_bank":"pb","sender_card_type":"mc","sender_card_country":804,"ip":"146.0.81.72","amount":0.1,"currency":"EUR","sender_commission":0.0,
-"receiver_commission":0.0,"agent_commission":0.0,"amount_debit":2.75,"amount_credit":2.75,"commission_debit":0.0,"commission_credit":0.08,
-"currency_debit":"UAH","currency_credit":"UAH","sender_bonus":0.0,"amount_bonus":0.0,"authcode_debit":"455004","authcode_credit":"004447",
-"rrn_debit":"000420165181","rrn_credit":"000420165185","mpi_eci":"5","is_3ds":true,"create_date":1468819201988,"end_date":1468819201988,
-"transaction_id":209270866}

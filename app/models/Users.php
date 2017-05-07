@@ -73,6 +73,12 @@ class Users extends Model
     public $code;
 
     /**
+     *
+     * @var string
+     */
+    public $withdraw;
+
+    /**
      * Before create the user assign values
      */
     public function beforeValidationOnCreate()
@@ -88,6 +94,9 @@ class Users extends Model
 
         // Assign Code
         $this->code = $this->name . '' . $this->id;
+
+        // The withdraw must be confirmed by sending documents
+        $this->withdraw = 'N';
     }
 
     /**
@@ -101,11 +110,6 @@ class Users extends Model
             $emailConfirmation->users_id = $this->id;
             $emailConfirmation->save();
         }
-
-        /*$coins = new Coins();
-        $coins->users_id = $this->id;
-        $coins->value = 30;
-        $coins->save();*/
     }
 
     /**

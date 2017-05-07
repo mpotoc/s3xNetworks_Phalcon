@@ -49,6 +49,18 @@ class Mytours extends Model
     public $dateend;
 
     /**
+     *
+     * @var string
+     */
+    public $fromHour;
+
+    /**
+     *
+     * @var string
+     */
+    public $toHour;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()

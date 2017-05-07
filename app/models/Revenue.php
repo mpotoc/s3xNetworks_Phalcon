@@ -25,6 +25,12 @@ class Revenue extends Model
     public $sum;
 
     /**
+     *
+     * @var string
+     */
+    public $pay_date;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()

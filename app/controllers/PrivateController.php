@@ -3,14 +3,13 @@ namespace Adverts\Controllers;
 
 use Adverts\Forms\AdForm;
 use Adverts\Forms\ChangeModelForm;
-use Adverts\Forms\CoinsForm;
-use Adverts\Forms\GalleryForm;
 use Adverts\Forms\PaymentForm;
 use Adverts\Forms\PMForm;
 use Adverts\Forms\SupportForm;
 use Adverts\Forms\ToursForm;
 use Adverts\Forms\UsersForm;
 use Adverts\Forms\VipForm;
+use Adverts\Forms\ExtendForm;
 use Adverts\Models\Mytours;
 use Adverts\Models\PrivateMessages;
 use Adverts\Models\Users;
@@ -23,6 +22,8 @@ use Adverts\Models\Ad;
 use Adverts\Models\Country;
 use Adverts\Models\City;
 use Adverts\Models\Payments;
+use Adverts\Models\Documents;
+use Adverts\Models\Withdrawal;
 use Phalcon\Image;
 use Phalcon\Tag;
 use Phalcon\Paginator\Adapter\Model as Paginator;
@@ -63,7 +64,6 @@ class PrivateController extends ControllerBase
         try
         {
             $this->persistent->conditions = null;
-
             $user = $this->auth->getUser();
 
             $sql = 'SELECT count(*) as myTotal FROM mlm WHERE users_id =' . $user->id;
@@ -105,21 +105,79 @@ class PrivateController extends ControllerBase
             $data2->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
             $data3 = $data2->fetchAll();
 
-            $sql1 = 'SELECT sum(r.sum) as totRevenue FROM mlm m inner join revenue r on m.users_id = r.users_id where m.level in ('.$data3[0]['level'].','.$data3[0]['level'].'+1,'.$data3[0]['level'].'+2,'.$data3[0]['level'].'+3,'.$data3[0]['level'].'+4,'.$data3[0]['level'].'+5)';
+            $sql6 = 'SELECT m.users_id, m.parent_id, sum(r.sum) as total FROM mlm m inner join revenue r on m.users_id = r.users_id inner join users u on m.users_id = u.id where m.level in ('.$data3[0]['level'].','.$data3[0]['level'].'+1,'.$data3[0]['level'].'+2,'.$data3[0]['level'].'+3,'.$data3[0]['level'].'+4,'.$data3[0]['level'].'+5) group by m.users_id';
+            $conn6 = $this->db;
+            $data6 = $conn6->query($sql6);
+            $data6->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
+            $data7 = $data6->fetchAll();
+            $resData = array();
+            $res = 0;// array();
+
+            foreach ($data7 as $result)
+            {
+                array_push($resData, array('memberId' => $result['users_id'], 'parentId' => $result['parent_id'], 'amount' => $result['total']));
+            }
+
+            $resTotal = $this->sumTotal(null, $resData, $user->id, $res);
+
+            $myEarnings = $resTotal * 0.1;
+
+            $sql3 = 'SELECT count(*) as docs FROM documents WHERE users_id =' . $user->id;
+            $conn3 = $this->db;
+            $data4 = $conn3->query($sql3);
+            $data4->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
+            $docExists = $data4->fetchAll();
+
+            $sql1 = 'SELECT amount FROM withdrawal WHERE users_id = '. $user->id .' and approved = "N" order by id DESC LIMIT 1';
             $conn1 = $this->db;
             $data1 = $conn1->query($sql1);
             $data1->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
-            $totRevenue = $data1->fetchAll();
+            $currWD = $data1->fetchAll();
 
-            $myEarnings = $totRevenue[0]['totRevenue'] * 0.1;
+            $withdrawal = Withdrawal::find(array(
+               'users_id =' . $user->id
+            ));
+            $wdTotal = 0;
 
+            foreach($withdrawal as $w){
+                $wdTotal += $w->amount;
+            }
+
+            if ($currWD[0]['amount'] > 0) {
+                $wdCurr = $currWD[0]['amount'];
+            } else {
+                $wdCurr = 0;
+            }
+            $myEarningsLeft = $myEarnings - $wdTotal;
+
+            $allwithdrawal = Withdrawal::find(array(
+                'users_id =' . $user->id . ' and approved = "Y"'
+            ));
+            $wdAllTotal = 0;
+
+            foreach($allwithdrawal as $w){
+                $wdAllTotal += $w->amount;
+            }
+
+            $wdStatus = ['Waiting request','Pending','Approved'];
+            if ($wdAllTotal > 0 && $wdCurr == 0) {
+                $this->view->wdStatus = $wdStatus[2];
+            } elseif ($wdCurr > 0) {
+                $this->view->wdStatus = $wdStatus[1];
+            } else {
+                $this->view->wdStatus = $wdStatus[0];
+            }
+
+            $this->view->withdraw = $user->withdraw;
+            $this->view->documents = $docExists[0]['docs'];
             $this->view->status = $status;
             $this->view->myTotal = $myTotal[0]['myTotal'];
-            $this->view->totRevenue = $totRevenue[0]['totRevenue'];
+            $this->view->totRevenue = $resTotal;
             $this->view->myEarnings = $myEarnings;
-            $this->view->wdTotal = 0;
-            $this->view->wdCurrent = 0;
-            $this->view->wdStatus = 'Waiting request';
+            $this->view->myLeftEarnings = $myEarningsLeft;
+            $this->view->wdTotal = $wdTotal;
+            $this->view->wdCurrent = $wdCurr;
+            $this->view->wdAll = $wdAllTotal;
             $this->view->userId = $user->id;
             $this->view->name= $user->name;
         }
@@ -127,6 +185,23 @@ class PrivateController extends ControllerBase
         {
             $this->flash->error($e->getMessage());
         }
+    }
+
+    private function sumTotal($parentId, $data, $val, $res)
+    {
+        for ($i = 0; $i < count($data); $i++) {
+            $member = $data[$i];
+            if ($member['memberId'] == $val) { $member['parentId'] = null; }
+            if ($member['parentId'] === $parentId) {
+                $res += $member['amount'];
+                //$t = $member['amount'];
+                $parentId = $member['memberId'];
+                //$val = null;
+                $this->sumTotal($parentId, $data, null, $res);
+            }
+        }
+
+        return $res; // + $t;
     }
 
     public function withdrawAction()
@@ -145,45 +220,60 @@ class PrivateController extends ControllerBase
                 else
                 {
                     $amount = $this->request->getPost('amount');
+                    $dt = new \DateTime();
+                    $datetime = $dt->format('Y-m-d H:i:s');
 
-                    //make save to DB for withdrawals and calculate on s3cheme what to add or remove from balances
+                    $sql2 = 'SELECT level FROM mlm WHERE users_id =' . $user->id;
+                    $conn2 = $this->db;
+                    $data2 = $conn2->query($sql2);
+                    $data2->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
+                    $data3 = $data2->fetchAll();
 
-                    if ($amount != "" && $amount > 0) {
-                        $this->flash->success('Your withdraw request of ' . $amount . ' EUR was successfully accepted. We will send funds to your account within 48 hours.');
+                    $sql6 = 'SELECT m.users_id, m.parent_id, sum(r.sum) as total FROM mlm m inner join revenue r on m.users_id = r.users_id inner join users u on m.users_id = u.id where m.level in ('.$data3[0]['level'].','.$data3[0]['level'].'+1,'.$data3[0]['level'].'+2,'.$data3[0]['level'].'+3,'.$data3[0]['level'].'+4,'.$data3[0]['level'].'+5) group by m.users_id';
+                    $conn6 = $this->db;
+                    $data6 = $conn6->query($sql6);
+                    $data6->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
+                    $data7 = $data6->fetchAll();
+                    $resData = array();
+                    $res = 0;// array();
+
+                    foreach ($data7 as $result)
+                    {
+                        array_push($resData, array('memberId' => $result['users_id'], 'parentId' => $result['parent_id'], 'amount' => $result['total']));
+                    }
+
+                    $resTotal = $this->sumTotal(null, $resData, $user->id, $res);
+
+                    $myEarnings = $resTotal * 0.1;
+
+                    $withdrawal = Withdrawal::find(array(
+                        'users_id =' . $user->id
+                    ));
+                    $wdTotal = 0;
+
+                    foreach($withdrawal as $w){
+                        $wdTotal += $w->amount;
+                    }
+
+                    $myEarnings = $myEarnings - $wdTotal;
+
+                    if ($amount > 0) {
+                        if ($myEarnings >= $amount) {
+                            $withdrawal = new Withdrawal();
+                            $withdrawal->users_id = $user->id;
+                            $withdrawal->amount = $amount;
+                            $withdrawal->date = $datetime;
+
+                            if ($withdrawal->save()) {
+                                $this->flash->success('Your withdraw request of ' . $amount . ' EUR was successfully accepted. We will send funds to your account within 48 hours.');
+                            } else {
+                                $this->flash->error('Something is wrong, please repeat withdrawal request!');
+                            }
+                        } else {
+                            $this->flash->error('Your have to enter number smaller or equal to "Earnings left".');
+                        }
                     } else {
                         $this->flash->error('Your have to enter a valid positive number to make withdraw.');
-                    }
-                    return $this->response->redirect('private/bonus');
-                }
-            }
-        }
-        catch (AuthException $e)
-        {
-            $this->flash->error($e->getMessage());
-        }
-    }
-
-    public function documentsAction()
-    {
-        try
-        {
-            $this->persistent->conditions = null;
-            $user = $this->auth->getUser();
-
-            //check if there is any file
-            if ($this->request->hasFiles() == true)
-            {
-                if (!$user)
-                {
-                    $this->flash->error('There is an error!');
-                }
-                else
-                {
-                    $uploads = $this->request->getUploadedFiles();
-                    if (strlen($uploads[0]->getTempName()) > 0) {
-                        $this->flash->success('You have successfully uploaded documents. We will notify you of successful proof in 48 hours.');
-                    } else {
-                        $this->flash->error('You have to specify documents for upload.');
                     }
                     return $this->response->redirect('private/bonus');
                 }
@@ -322,6 +412,101 @@ class PrivateController extends ControllerBase
         }
     }
 
+    public function documentsAction()
+    {
+        try {
+            $this->persistent->conditions = null;
+            $user = $this->auth->getUser();
+            $basepath = 'documents/';
+
+            //check if there is any file
+            if ($this->request->hasFiles() == true) {
+                if (!$user) {
+                    $this->flash->error('There is an error!');
+                } else {
+                    $uploads = $this->request->getUploadedFiles();
+
+                    $dir = $basepath . 'id' . $user->id;
+                    $i = 0;
+
+                    if (is_dir($dir) === false) {
+                        mkdir($dir);
+                    }
+
+                    foreach ($uploads as $upload) {
+                        $i++;
+
+                        if ($upload->getName() != '') {
+                            $check = getimagesize($upload->getTempName());
+                            $min_width = 100;
+                            $min_height = 200;
+                            $width = $check[0];
+                            $height = $check[1];
+                            $image_temp = $upload->getTempName();
+                            $image_type = $upload->getType();
+
+                            switch (strtolower($image_type)) {
+                                //Create new image from file
+                                case 'image/png':
+                                    $image_resource = imagecreatefrompng($image_temp);
+                                    break;
+                                case 'image/gif':
+                                    $image_resource = imagecreatefromgif($image_temp);
+                                    break;
+                                case 'image/jpeg':
+                                case 'image/pjpeg':
+                                    $image_resource = imagecreatefromjpeg($image_temp);
+                                    break;
+                                default:
+                                    $image_resource = false;
+                            }
+
+                            if ($check !== false) {
+                                if ((($width >= $min_width) && ($height >= $min_height))) {
+                                    $new_canvas = imagecreatetruecolor($width, $height);
+
+                                    $name = uniqid('_') . '_' . $user->id . '.' . strtolower($upload->getExtension());
+                                    $path = $dir . '/' . strtolower($name);
+
+                                    if (imagecopyresampled($new_canvas, $image_resource, 0, 0, 0, 0, $width, $height, $width, $height)) {
+                                        header('Content-Type: image/jpeg');
+                                        imagejpeg($new_canvas, $path, 90);
+
+                                        //free up memory
+                                        imagedestroy($new_canvas);
+                                        imagedestroy($image_resource);
+                                    }
+
+                                    $docs = new Documents();
+                                    $docs->users_id = $user->id;
+                                    $docs->path = $name;
+
+                                    if (!$docs->save()) {
+                                        foreach ($docs->getMessages() as $message) {
+                                            $this->flash->error($message);
+                                        }
+                                    }
+
+                                    $this->flash->success('You have successfully uploaded document. We will notify you of successful proof in 48 hours.');
+                                    $this->response->redirect('private/bonus');
+                                } else {
+                                    $this->flash->error('Upload photo ' . $i . ' - photo must be larger or equal then 200x100 px!');
+                                    $this->response->redirect('private/bonus');
+                                }
+                            } else {
+                                $this->flash->error('File is not an image ' . $check['mime'] . '!');
+                                $this->response->redirect('private/bonus');
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        catch (AuthException $e) {
+            $this->flash->error($e->getMessage());
+        }
+    }
+
     public function galleryAction($param)
     {
         try
@@ -360,8 +545,8 @@ class PrivateController extends ControllerBase
                     if ($upload->getName() != '')
                     {
                         $check = getimagesize($upload->getTempName());
-                        $min_width = 400;
-                        $min_height = 600;
+                        $min_width = 300;
+                        $min_height = 500;
                         $width = $check[0];
                         $height = $check[1];
                         $image_temp = $upload->getTempName();
@@ -377,8 +562,8 @@ class PrivateController extends ControllerBase
                                 $image_resource =  imagecreatefromgif($image_temp);
                                 break;
                             case 'image/jpeg': case 'image/pjpeg':
-                            $image_resource = imagecreatefromjpeg($image_temp);
-                            break;
+                                $image_resource = imagecreatefromjpeg($image_temp);
+                                break;
                             default:
                                 $image_resource = false;
                         }
@@ -437,12 +622,13 @@ class PrivateController extends ControllerBase
                                 }
                                 else
                                 {
-                                    $this->flash->error('Upload photo ' . $i . ' - photo must be larger or equal then 600x400 px!');
+                                    $this->flash->error('Upload photo ' . $i . ' - photo must be larger or equal then 500x300 px!');
                                 }
                             }
                             else
                             {
-                                $this->flash->error('Upload photo ' . $i . ' - only portrait photos that are larger or equal then 600x400 px are allowed for upload!');
+                                //need to allow also landscape photos
+                                $this->flash->error('Upload photo ' . $i . ' - only portrait photos that are larger or equal then 500x300 px are allowed for upload!');
                             }
                         }
                         else
@@ -580,13 +766,13 @@ class PrivateController extends ControllerBase
 
             $user = $this->auth->getUser();
 
-            $sql = 'SELECT a.*, ad.packages_id, g.path, c.country_iso_code from ad a inner join advertising ad on a.ad_date = ad.date inner join gallery g on a.id = g.ad_id inner join country c on a.working_country = c.country_name where a.users_id = ' . $user->id . ' and a.advertisement = "Y" and a.active = "Y" and a.deleted = "N"  group by a.id order by a.working_country ASC';
+            $sql = 'SELECT a.*, ad.packages_id, g.path, c.country_iso_code from ad a inner join advertising ad on a.ad_date = ad.date inner join gallery g on a.id = g.ad_id inner join country c on a.working_country = c.country_name where a.users_id = ' . $user->id . ' and a.advertisement = "Y" and a.end_date > now() and a.active = "Y" and a.deleted = "N"  group by a.id order by a.working_country ASC';
             $conn = $this->db;
             $data = $conn->query($sql);
             $data->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
             $ads = $data->fetchAll();
 
-            $sql1 = 'SELECT a.*, g.path, c.country_iso_code from ad a inner join gallery g on a.id = g.ad_id inner join country c on a.working_country = c.country_name where a.users_id = ' . $user->id . ' and a.advertisement = "N" and a.active = "Y" and a.deleted = "N" group by a.id order by a.working_country ASC';
+            $sql1 = 'SELECT a.*, g.path, c.country_iso_code from ad a inner join gallery g on a.id = g.ad_id inner join country c on a.working_country = c.country_name where a.users_id = ' . $user->id . ' and (a.advertisement = "N" or (a.advertisement = "Y" and a.end_date < now())) and a.active = "Y" and a.deleted = "N" group by a.id order by a.working_country ASC';
             $conn1 = $this->db;
             $data1 = $conn1->query($sql1);
             $data1->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
@@ -735,21 +921,7 @@ class PrivateController extends ControllerBase
         try
         {
             $this->persistent->conditions = null;
-
             $user = $this->auth->getUser();
-
-            $coins = Coins::find(array(
-                'users_id = ' . $user->id
-            ));
-            $sum_coins = 0;
-
-            foreach ($coins as $c)
-            {
-                $sum_coins += $c->value;
-            }
-
-            $this->view->coins = $sum_coins;
-
             $form = new VipForm();
 
             if ($this->request->isPost())
@@ -763,53 +935,18 @@ class PrivateController extends ControllerBase
                 }
                 else
                 {
-                    $days = $this->request->getPost('vipDays');
-                    $packageId = 10;
+                    $package_id = 8;
                     $ad_id = $this->request->getPost('adverts');
 
                     $myPack = Packages::findFirst(array(
-                        'id = ' . $packageId
+                        'id = ' . $package_id
                     ));
 
-                    $price = $myPack->price*$days;
-                    $new_value = ($price*(-1));
+                    $price = $myPack->price;
 
-                    if ($sum_coins >= $price)
-                    {
-                        $d = new \DateTime();
-                        $d1 = $d->format("Y-m-d H:i:s");
-                        $endDate = date("Y-m-d H:i:s", (time()+(86400*$days)));
+                    $param = $ad_id . "-" . $package_id . "-" . $price;
 
-                        $advertising = new Advertising();
-                        $advertising->users_id = $user->id;
-                        $advertising->ad_id = $ad_id;
-                        $advertising->packages_id = $packageId;
-                        $advertising->date = $d1;
-                        $advertising->end_date = $endDate;
-                        $advertising->days = $days;
-
-                        if ($advertising->save())
-                        {
-                            $coins = new Coins();
-                            $coins->users_id = $user->id;
-                            $coins->value = $new_value;
-                            $coins->save();
-
-                            $this->flash->success('You have successfully bought package '.$advertising->packages->name.' for your model '.$advertising->ad->showname.' with s3xcoins.');
-                            return $this->response->redirect('private');
-                        }
-                        else
-                        {
-                            foreach ($advertising->getMessages() as $message)
-                            {
-                                $this->flash->error($message);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        $this->flash->error('You do not have enough s3xcoins to pay advertising for this model. Buy more s3xcoins!');
-                    }
+                    $this->response->redirect('private/pay/' . $param);
                 }
             }
 
@@ -821,110 +958,13 @@ class PrivateController extends ControllerBase
         }
     }
 
-    public function paymentOldAction() {
-        try {
-            $this->persistent->conditions = null;
-
-            $user = $this->auth->getUser();
-
-            $coins = Coins::find(array(
-                'users_id = ' . $user->id
-            ));
-            $sum_coins = 0;
-
-            foreach ($coins as $c) {
-                $sum_coins += $c->value;
-            }
-
-            $this->view->coins = $sum_coins;
-
-            $form = new PaymentForm();
-
-            if ($this->request->isPost()) {
-                if ($form->isValid($this->request->getPost()) == false) {
-                    foreach ($form->getMessages() as $message) {
-                        $this->flash->error($message);
-                    }
-                }
-                else {
-                    $days = 0;
-                    $price = 0;
-                    $packageId = $this->request->getPost('payment');
-                    $ad_id = $this->request->getPost('adverts');
-
-                    $myPack = Packages::findFirst(array(
-                        'id = ' . $packageId
-                    ));
-
-                    if ($packageId == 1) {
-                        $days = $this->request->getPost('packagesd');
-                        $price = $this->request->getPost('priced');
-                    }
-                    elseif ($packageId == 4) {
-                        $days = $this->request->getPost('packagesg');
-                        $price = $this->request->getPost('priceg');
-                    }
-                    elseif ($packageId == 7) {
-                        $days = $this->request->getPost('packagess');
-                        $price = $this->request->getPost('prices');
-                    }
-                    elseif ($packageId == 21) {
-                        $days = $this->request->getPost('packagesf');
-                        $price = $this->request->getPost('pricef');
-                    }
-
-                    $add_coins = $price*($myPack->coins/100);
-                    $new_value = ($price*(-1))+$add_coins;
-                    $total = $price-$add_coins;
-
-                    if ($sum_coins >= $total) {
-                        $d = new \DateTime();
-                        $d1 = $d->format("Y-m-d H:i:s");
-                        $endDate = date("Y-m-d H:i:s", (time()+(86400*$days)));
-
-                        $advertising = new Advertising();
-                        $advertising->users_id = $user->id;
-                        $advertising->ad_id = $ad_id;
-                        $advertising->packages_id = $packageId;
-                        $advertising->date = $d1;
-                        $advertising->end_date = $endDate;
-                        $advertising->days = $days;
-
-                        if ($advertising->save()) {
-                            $coins = new Coins();
-                            $coins->users_id = $user->id;
-                            $coins->value = $new_value;
-                            $coins->save();
-
-                            $this->flash->success('You have successfully bought package '.$advertising->packages->name.' for your model '.$advertising->ad->showname.' with s3xcoins.');
-                            return $this->response->redirect('private');
-                        }
-                        else {
-                            foreach ($advertising->getMessages() as $message) {
-                                $this->flash->error($message);
-                            }
-                        }
-                    }
-                    else {
-                        $this->flash->error('You do not have enough s3xcoins to pay advertising for this model. Buy more s3xcoins!');
-                    }
-                }
-            }
-
-            $this->view->form = $form;
-        }
-        catch (AuthException $e) {
-            $this->flash->error($e->getMessage());
-        }
-    }
-
-    public function paymentAction() //was before coinsAction()
+    public function paymentAction()
     {
         try
         {
             $this->persistent->conditions = null;
-
-            $form = new PaymentForm(); //CoinsForm()
+            $user = $this->auth->getUser();
+            $form = new PaymentForm();
 
             if ($this->request->isPost())
             {
@@ -938,14 +978,127 @@ class PrivateController extends ControllerBase
                 else
                 {
                     $ad_id = $this->request->getPost('adverts');
-                    $this->response->redirect('private/pay/' . $ad_id);
+                    $package_id = $this->request->getPost('packages');
+
+                    $package = Packages::findFirst(array(
+                        'id =' . $package_id
+                    ));
+
+                    $price = $package->price;
+
+                    if ($package_id != 7)
+                    {
+                        $param = $ad_id . "-" . $package_id . "-" . $price;
+
+                        $this->response->redirect('private/pay/' . $param);
+                    }
+                    else
+                    {
+                        /*$sql = 'SELECT COUNT(*) as allFree FROM advertising WHERE users_id = '.$user->id.' AND packages_id = 7 AND end_date > NOW()';
+                        $conn = $this->db;
+                        $data = $conn->query($sql);
+                        $data->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
+                        $checkAdv = $data->fetchAll();
+
+                        if ($checkAdv[0]['allFree'] < 1) {*/
+                            $days = $package->day;
+                            $d = new \DateTime();
+                            $d1 = $d->format("Y-m-d H:i:s");
+                            $endDate = date("Y-m-d H:i:s", (time() + (86400 * $days)));
+                            $param = 7;
+
+                            $advertising = new Advertising();
+                            $advertising->users_id = $user->id;
+                            $advertising->ad_id = $ad_id;
+                            $advertising->packages_id = $package_id;
+                            $advertising->date = $d1;
+                            $advertising->end_date = $endDate;
+                            $advertising->days = $days;
+                            $advertising->save();
+
+                            $this->response->redirect('private/result/' . $param);
+                        /*}
+                        else {
+                            $this->flash->error('You can have only one active FREE package at one time! Please select different package.');
+                        }*/
+                    }
                 }
             }
-
             $this->view->form = $form;
         }
         catch (AuthException $e)
         {
+            $this->flash->error($e->getMessage());
+        }
+    }
+
+    public function extendAction($param)
+    {
+        try {
+            $this->persistent->conditions = null;
+            $user = $this->auth->getUser();
+            $form = new ExtendForm();
+
+            $ad = Ad::findFirst(array(
+                'id =' . $param
+            ));
+
+            $currModel = $ad->showname . ' - ' . $ad->id . ' ' . $ad->working_country . ' -> Package ends: ' . $ad->end_date . ' CET';
+
+            $this->view->currModel = $currModel;
+            $this->view->ad_id = $param;
+
+            if ($this->request->isPost()) {
+                if ($form->isValid($this->request->getPost()) == false) {
+                    foreach ($form->getMessages() as $message) {
+                        $this->flash->error($message);
+                    }
+                } else {
+                    $ad_id = $this->request->getPost('adverts');
+                    $package_id = $this->request->getPost('packages');
+
+                    $package = Packages::findFirst(array(
+                        'id =' . $package_id
+                    ));
+
+                    $price = $package->price;
+
+                    if ($package_id != 7) {
+                        $param = $ad_id . "-" . $package_id . "-" . $price;
+
+                        $this->response->redirect('private/pay/' . $param);
+                    } else {
+                        /*$sql = 'SELECT COUNT(*) as allFree, ad_id as adId FROM advertising WHERE users_id = ' . $user->id . ' AND packages_id = 7 AND end_date > NOW()';
+                        $conn = $this->db;
+                        $data = $conn->query($sql);
+                        $data->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
+                        $checkAdv = $data->fetchAll();
+
+                        if ($checkAdv[0]['allFree'] < 1 || $checkAdv[0]['adId'] == $ad_id) {*/
+                            $days = $package->day;
+                            $d = new \DateTime();
+                            $d1 = $d->format("Y-m-d H:i:s");
+                            $endDate = date("Y-m-d H:i:s", (time() + (86400 * $days)));
+                            $param = 7;
+
+                            $advertising = new Advertising();
+                            $advertising->users_id = $user->id;
+                            $advertising->ad_id = $ad_id;
+                            $advertising->packages_id = $package_id;
+                            $advertising->date = $d1;
+                            $advertising->end_date = $endDate;
+                            $advertising->days = $days;
+                            $advertising->save();
+
+                            $this->response->redirect('private/result/' . $param);
+                        /*} else {
+                            $this->flash->error('You can have only one active FREE package at one time! Please select different package.');
+                        }*/
+                    }
+                }
+            }
+            $this->view->form = $form;
+        } catch (AuthException $e) {
             $this->flash->error($e->getMessage());
         }
     }
@@ -955,25 +1108,18 @@ class PrivateController extends ControllerBase
         try
         {
             $this->persistent->conditions = null;
-
             $user = $this->auth->getUser();
-
-            /*$packages = Packages::findFirst(array(
-                'id = ' . $param
-            ));*/
-
-            $price = 0.01;
-            //$coins = $packages->coins;
+            $aParam = explode('-', $param);
+            $price = 0.01; //$aParam[2];
             $micro = sprintf("%06d",(microtime(true) - floor(microtime(true))) * 1000000);
 
-            $json = '{"version":"3","public_key":"'.$this->config->application->liqpay_public.'","action":"pay","amount":'.$price.',"currency":"EUR","description":"Diamond","order_id":"'.$user->id.'|'.$param.'|'.$price.'|'.$micro.'","language":"en","sandbox":"1","server_url":"http://'.$_SERVER['SERVER_NAME'].'/callback","result_url":"http://'.$_SERVER['SERVER_NAME'].'/private/result"}';
-            // after language "sandbox":"1",
+            $json = '{"version":"3","public_key":"'.$this->config->application->liqpay_public.'","action":"pay","amount":'.$price.',"currency":"EUR","description":"Diamond","order_id":"'.$user->id.'|'.$aParam[0].'|'.$aParam[1].'|'.$price.'|'.$micro.'","language":"en","sandbox":"1","server_url":"http://'.$_SERVER['SERVER_NAME'].'/callback","result_url":"http://'.$_SERVER['SERVER_NAME'].'/private/result"}';
+            // after language "sandbox":"1" for sandbox payments
 
             $data = base64_encode($json);
             $signature = base64_encode(sha1($this->config->application->liqpay_private.$data.$this->config->application->liqpay_private, 1));
 
-            $this->view->price = $price;
-            //$this->view->coins = $coins;
+            $this->view->price = $aParam[2];
             $this->view->data = $data;
             $this->view->signature = $signature;
         }
@@ -983,24 +1129,34 @@ class PrivateController extends ControllerBase
         }
     }
 
-    public function resultAction()
+    public function resultAction($param)
     {
         try
         {
             $this->persistent->conditions = null;
-
             $user = $this->auth->getUser();
 
-            $payments = Payments::find(array(
-                'users_id = ' . $user->id, 'order' => 'id DESC', 'limit' => 1
-            ));
+            if ($param == 7)
+            {
+                $status = 'free';
+                $price = 0;
+            }
+            else
+            {
+                $payments = Payments::find(array(
+                    'users_id = ' . $user->id, 'order' => 'id DESC', 'limit' => 1
+                ));
 
-            $package = Packages::findFirst(array(
-                'id =' . $payments[0]->packages_id
-            ));
+                $package = Packages::findFirst(array(
+                    'id =' . $payments[0]->packages_id
+                ));
 
-            $this->view->price = $package->price;
-            $this->view->status = $payments[0]->status;
+                $status = $payments[0]->status;
+                $price = $package->price;
+            }
+
+            $this->view->price = $price;
+            $this->view->status = $status;
         }
         catch (AuthException $e)
         {
@@ -1013,7 +1169,6 @@ class PrivateController extends ControllerBase
         try
         {
             $this->persistent->conditions = null;
-
             $user = $this->auth->getUser();
 
             $sql = 'SELECT a.*, ad.packages_id, g.path from ad a inner join advertising ad on a.ad_date = ad.date inner join gallery g on a.id = g.ad_id where a.users_id = '.$user->id.' and a.advertisement = "Y" and a.active = "Y" and a.deleted = "N" and a.id = '.$param.' group by a.id';
@@ -1021,6 +1176,7 @@ class PrivateController extends ControllerBase
             $data = $conn->query($sql);
             $data->setFetchMode(\Phalcon\Db::FETCH_ASSOC);
             $ads = $data->fetchAll();
+
             $this->view->ads = $ads;
 
             $form = new ChangeModelForm();
@@ -1145,9 +1301,13 @@ class PrivateController extends ControllerBase
                     $city = $cities[0];
                     $startdate = $this->request->getPost('from');
                     $enddate = $this->request->getPost('to');
+                    $fromHour = $this->request->getPost('fromH');
+                    $toHour = $this->request->getPost('toH');
                     $ds = new \DateTime($startdate);
+                    $ds->add(new \DateInterval("PT{$fromHour}H"));
                     $datetime1 = $ds->format('Y-m-d H:i:s');
                     $de = new \DateTime($enddate);
+                    $de->add(new \DateInterval("PT{$toHour}H"));
                     $datetime2 = $de->format('Y-m-d H:i:s');
 
                     if ($datetime2 < $datetime1)
@@ -1163,6 +1323,8 @@ class PrivateController extends ControllerBase
                         $tour->city = $city;
                         $tour->datestart = $datetime1;
                         $tour->dateend = $datetime2;
+                        $tour->fromHour = strlen($fromHour) > 1 ? $fromHour.":00" : "0".$fromHour.":00";
+                        $tour->toHour = strlen($toHour) > 1 ? $toHour.":00" : "0".$toHour.":00";;
 
                         if ($tour->save())
                         {

@@ -55,9 +55,9 @@
                     <a href="{{ url.getBaseUri() }}private/payment" class="myButton6">
                         <i class="icon-shopping-cart"></i> Buy Package
                     </a>&nbsp;&nbsp;
-                    <!--<a href="{{ url.getBaseUri() }}private/vip" class="myButton6">
+                    <a href="{{ url.getBaseUri() }}private/vip" class="myButton6">
                         <i class="icon-shopping-cart"></i> Buy VIP
-                    </a>&nbsp;&nbsp;-->
+                    </a>&nbsp;&nbsp;
                     {% if mlm > 0 %}
                     <a href="{{ url.getBaseUri() }}private/bonus" class="myButton6">
                         <i class="icon-trophy"></i> s3xScheme
@@ -138,7 +138,8 @@
                         <div class="dropdown-container" style="display: none;">
                             <p>
                                 This is the package for top positions on <a href="{{ url.getBaseUri() }}">www.{{ mainLogo }}.com</a>. You
-                                can choose length for this package either 15 or 30 days. Your ad will be among top
+                                can choose length for this package either 15 or 30 days. When less then 2 days of your current package are left, you
+                                can extend this package for further 15 or 30 days, or change to different package. Your ad will be among top
                                 listings on <a href="{{ url.getBaseUri() }}">www.{{ mainLogo }}.com</a>. The price for this package varies depending on
                                 the days you select. 15 days Diamond package costs 150 EUR and 30 days Diamond package costs 200 EUR.
                             </p>
@@ -150,7 +151,8 @@
                         <div class="dropdown-container" style="display: none;">
                             <p>
                                 This is the package after <b>Diamond</b> positions on <a href="{{ url.getBaseUri() }}">www.{{ mainLogo }}.com</a>.
-                                You can choose length for this package either 15 or 30 days. Your ad will be listed after
+                                You can choose length for this package either 15 or 30 days. When less then 2 days of your current package are left, you
+                                can extend this package for further 15 or 30 days, or change to different package. Your ad will be listed after
                                 <b>Diamond</b> listings on <a href="{{ url.getBaseUri() }}">www.{{ mainLogo }}.com</a>. The price for this package
                                 varies depending on the days you select. 15 days Gold package costs 130 EUR and 30 days Gold package costs 170 EUR.
                             </p>
@@ -162,7 +164,8 @@
                         <div class="dropdown-container" style="display: none;">
                             <p>
                                 This is the package after <b>Gold</b> positions on <a href="{{ url.getBaseUri() }}">www.{{ mainLogo }}.com</a>.
-                                You can choose length for this package either 15 or 30 days. Your ad will be listed after
+                                You can choose length for this package either 15 or 30 days. When less then 2 days of your current package are left, you
+                                can extend this package for further 15 or 30 days, or change to different package. Your ad will be listed after
                                 <b>Gold</b> listings on <a href="{{ url.getBaseUri() }}">www.{{ mainLogo }}.com</a>. The price for this package varies
                                 depending on the days you select. 15 days Silver package costs 110 EUR and 30 days Silver package costs 140 EUR.
                             </p>
@@ -174,9 +177,9 @@
                         <div class="dropdown-container" style="display: none;">
                             <p>
                                 This is the package after <b>Silver</b> positions on <a href="{{ url.getBaseUri() }}">www.{{ mainLogo }}.com</a>.
-                                You can get this package for 7 days. After 6 days you can extend this package for further 7 days. You can extend this
-                                package for as long as you want. Your ad will be listed after <b>Silver</b> listings on
-                                <a href="{{ url.getBaseUri() }}">www.{{ mainLogo }}.com</a>. The price for this package is FREE.
+                                You can get this package for 90 days. After 88 days you can extend this package for further 90 days. You can extend this
+                                package for as long as you want. But you can have only one FREE package active at once. Your ad will be listed after
+                                <b>Silver</b> listings on<a href="{{ url.getBaseUri() }}">www.{{ mainLogo }}.com</a>. The price for this package is FREE.
                             </p>
                         </div>
                     </div>

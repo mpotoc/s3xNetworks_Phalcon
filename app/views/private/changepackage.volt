@@ -46,11 +46,11 @@
 
                     <div class="profile1">
                         <div class="profile8" style="font-size: 15px; text-align: center;">
-                            {% if ad['packages_id'] == 1 %}
+                            {% if ad['packages_id'] == 1 or ad['packages_id'] == 2 %}
                                 <img src="../../img/packages/diamond-s.png" alt="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" title="Escort {{ ad['working_country'] }} - {{ ad['showname'] }}" />
-                            {% elseif ad['packages_id'] == 4 %}
+                            {% elseif ad['packages_id'] == 3 or ad['packages_id'] == 4 %}
                                 <img src="../../img/packages/gold-s.png" alt="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" title="Escort {{ ad['working_country'] }} - {{ ad['showname'] }}" />
-                            {% elseif ad['packages_id'] == 7 %}
+                            {% elseif ad['packages_id'] == 5 or ad['packages_id'] == 6 %}
                                 <img src="../../img/packages/silver-s.png" alt="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" title="Escort {{ ad['working_country'] }} - {{ ad['showname'] }}" />
                             {% endif %}
                         </div>

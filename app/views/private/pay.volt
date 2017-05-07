@@ -10,7 +10,7 @@
 
             <div id="sgnup1">
                 <div id="sgnupb">
-                    <a href="../../private/payment">
+                    <a href="../../private">
                         <button type="button" class="myButton4" title="Private Area">
                             <i class="glyphicon glyphicon-arrow-left"></i> Back
                         </button>

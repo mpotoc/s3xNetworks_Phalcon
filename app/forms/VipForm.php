@@ -25,7 +25,7 @@ class VipForm extends Form
         $user = $this->auth->getUser();
 
         $adverts = new Select('adverts', Ad::find(array(
-            'columns' => 'id,'.new RawConcat('CONCAT (showname, "-", id, " ", working_country, " - Package ends: ", end_date, " CET") AS conName'),
+            'columns' => 'id,'.new RawConcat('CONCAT (showname, "-", id, " ", working_country, " -> Package ends: ", end_date, " CET") AS conName'),
             'users_id = ' . $user->id . ' and advertisement = "Y" and deleted = "N" and active = "Y" and end_vip < now() and end_date > now()',
             'order' => 'showname ASC'
         )),
@@ -39,13 +39,6 @@ class VipForm extends Form
             ))
         ));
         $this->add($adverts);
-
-        $vipDays = new Text('vipDays');
-        $vipDays->setLabel('VIP days:');
-        $vipDays->addValidator(new PresenceOf(array(
-            'message' => 'How many days field is required!'
-        )));
-        $this->add($vipDays);
 
         $this->add(new Submit('Buy VIP', array(
             'class' => 'myButton3'

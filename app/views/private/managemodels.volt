@@ -54,10 +54,17 @@
 
                     {% if ms > 0 %}
                         <div id="pid{{ ad['id'] }}" class="b-items" style="margin-bottom: 20px; margin-left: 10px;">
-                            <h4 style="padding-left: 8px; font-size: 14px; text-align: left; color: #ff2211; text-shadow: none; font-weight: bold;">{{ ad['showname'] }} <img id="flagescort" src="../../img/flags/{{ strToLower(ad['country_iso_code']) }}.png" alt="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" title="Escort {{ ad['working_country'] }}" /></h4>
+                            <h4 style="padding-left: 8px; font-size: 14px; text-align: left; color: #ff2211; text-shadow: none; font-weight: bold;"><img id="flagescort" src="../../img/flags/{{ strToLower(ad['country_iso_code']) }}.png" alt="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" title="Escort {{ ad['working_country'] }}" /> {{ ad['showname'] }}</h4>
                             <div id="managelr">
                                 <div class="imgcontainer1">
-                                    <img id="id{{ ad['id'] }}" src="../files/id{{ ad['id'] }}/{{ ad['path'] }}" alt="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" title="Escort {{ ad['working_country'] }} - {{ ad['showname'] }}" class="thumbdp">
+                                    <div class="imgcontainer2">
+                                        <img id="id{{ ad['id'] }}" src="../files/id{{ ad['id'] }}/{{ ad['path'] }}" alt="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" title="Escort {{ ad['working_country'] }} - {{ ad['showname'] }}" class="thumbdp">
+                                        {% if ad['vip'] == 'Y' %}
+                                            {% if msv > 0 %}
+                                                <div class="vipmodels"><img src="../../../public/img/packages/vip.png" alt="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" title="{{ dv }} days {{ hv }} H {{ mv }} min {{ sv }} sec" /></div>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
                                 </div>
                                 <div class="portfolio-caption1">
                                     <a href="editprofile/{{ ad['showname'] }}-{{ ad['id'] }}">
@@ -80,28 +87,30 @@
                                             Change
                                         </button>
                                     </a>
-                                    {% if ad['vip'] == 'Y' %}
-                                        {% if msv > 0 %}
-                                            <img src="../../../public/img/packages/vip.png" alt="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" title="{{ dv }} days {{ hv }} H {{ mv }} min {{ sv }} sec" />
-                                        {% endif %}
+                                    {% if ms < 172800 %}
+                                    <a href="extend/{{ ad['id'] }}">
+                                        <button type="button" class="myButton5" title="Extend package">
+                                            Extend
+                                        </button>
+                                    </a>
                                     {% endif %}
                                 </div>
                             </div>
                             <div style="text-align: center;">
-                                {% if ad['packages_id'] == 1 %}
+                                {% if ad['packages_id'] == 1 or ad['packages_id'] == 2 %}
                                     <img src="../../img/packages/diamond-s.png" height="15" alt="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" title="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" /> <b style="color: goldenrod; text-shadow: none; font-size: 10px;">{{ d }} days {{ h }} H {{ m }} min {{ s }} sec</b>
-                                {% elseif ad['packages_id'] == 4 %}
+                                {% elseif ad['packages_id'] == 3 or ad['packages_id'] == 4 %}
                                     <img src="../../img/packages/gold-s.png" height="15" alt="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" title="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" /> <b style="color: goldenrod; text-shadow: none; font-size: 10px;">{{ d }} days {{ h }} H {{ m }} min {{ s }} sec</b>
-                                {% elseif ad['packages_id'] == 7 %}
+                                {% elseif ad['packages_id'] == 5 or ad['packages_id'] == 6 %}
                                     <img src="../../img/packages/silver-s.png" height="15" alt="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" title="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" /> <b style="color: goldenrod; text-shadow: none; font-size: 10px;">{{ d }} days {{ h }} H {{ m }} min {{ s }} sec</b>
-                                {% elseif ad['packages_id'] == 21 %}
+                                {% elseif ad['packages_id'] == 7 %}
                                     FREE <b style="color: goldenrod; text-shadow: none; font-size: 10px;">{{ d }} days {{ h }} H {{ m }} min {{ s }} sec</b>
                                 {% endif %}
                             </div>
                         </div>
                     {% else %}
                         <div id="pid{{ ad['id'] }}" class="b-items1" style="margin-bottom: 20px; margin-left: 10px;">
-                            <h4 style="padding-left: 8px; font-size: 14px; text-align: left; color: #ff2211; text-shadow: none; font-weight: bold;">{{ ad['showname'] }} <img id="flagescort" src="../../img/flags/{{ strToLower(ad['country_iso_code']) }}.png" alt="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" title="Escort {{ ad['working_country'] }}" /></h4>
+                            <h4 style="padding-left: 8px; font-size: 14px; text-align: left; color: #ff2211; text-shadow: none; font-weight: bold;"><img id="flagescort" src="../../img/flags/{{ strToLower(ad['country_iso_code']) }}.png" alt="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" title="Escort {{ ad['working_country'] }}" /> {{ ad['showname'] }}</h4>
                             <div id="managelr">
                                 <div class="imgcontainer1">
                                     <img id="id{{ ad['id'] }}" src="../files/id{{ ad['id'] }}/{{ ad['path'] }}" alt="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" title="Escort {{ ad['working_country'] }} - {{ ad['showname'] }}" class="thumbda">
@@ -127,6 +136,11 @@
                                             Delete
                                         </button>
                                     </a>
+                                    <a href="payment">
+                                        <button type="button" class="myButton5" title="Buy package">
+                                            Buy
+                                        </button>
+                                    </a>
                                 </div>
                             </div>
                             <div style="padding-bottom: 1px;">
@@ -139,7 +153,7 @@
 
                     {% for aad in aads %}
                         <div id="pid{{ aad['id'] }}" class="b-items1" style="margin-bottom: 20px; margin-left: 10px;">
-                            <h4 style="padding-left: 8px; font-size: 14px; text-align: left; color: #ff2211; text-shadow: none; font-weight: bold;">{{ aad['showname'] }} <img id="flagescort" src="../../img/flags/{{ strToLower(aad['country_iso_code']) }}.png" alt="Escort {{ aad['working_country'] }}, Escort {{ aad['working_city1'] }}" title="Escort {{ aad['working_country'] }}" /></h4>
+                            <h4 style="padding-left: 8px; font-size: 14px; text-align: left; color: #ff2211; text-shadow: none; font-weight: bold;"><img id="flagescort" src="../../img/flags/{{ strToLower(aad['country_iso_code']) }}.png" alt="Escort {{ aad['working_country'] }}, Escort {{ aad['working_city1'] }}" title="Escort {{ aad['working_country'] }}" /> {{ aad['showname'] }}</h4>
                             <div id="managelr">
                                 <div class="imgcontainer1">
                                     <img id="id{{ aad['id'] }}" src="../files/id{{ aad['id'] }}/{{ aad['path'] }}" alt="Escort {{ aad['working_country'] }}, Escort {{ aad['working_city1'] }}" title="Escort {{ aad['working_country'] }} - {{ aad['showname'] }}" class="thumbda">
@@ -165,6 +179,11 @@
                                             Delete
                                         </button>
                                     </a>
+                                    <a href="payment">
+                                        <button type="button" class="myButton5" title="Buy package">
+                                            Buy
+                                        </button>
+                                    </a>
                                 </div>
                             </div>
                             <div style="padding-bottom: 1px;">
@@ -183,7 +202,7 @@
 
                     {% for iad in iads %}
                         <div id="pid{{ iad['id'] }}" class="b-items2" style="margin-bottom: 20px; margin-left: 10px;">
-                            <h4 style="padding-left: 8px; font-size: 14px; text-align: left; color: #ff2211; text-shadow: none; font-weight: bold;">{{ iad['showname'] }} <img id="flagescort" src="../../img/flags/{{ strToLower(iad['country_iso_code']) }}.png" alt="Escort {{ iad['working_country'] }}, Escort {{ iad['working_city1'] }}" title="Escort {{ iad['working_country'] }}" /></h4>
+                            <h4 style="padding-left: 8px; font-size: 14px; text-align: left; color: #ff2211; text-shadow: none; font-weight: bold;"><img id="flagescort" src="../../img/flags/{{ strToLower(iad['country_iso_code']) }}.png" alt="Escort {{ iad['working_country'] }}, Escort {{ iad['working_city1'] }}" title="Escort {{ iad['working_country'] }}" /> {{ iad['showname'] }}</h4>
                             <div id="managelr">
                                 <div class="imgcontainer1">
                                     <img id="id{{ iad['id'] }}" src="../files/id{{ iad['id'] }}/{{ iad['path'] }}" alt="Escort {{ iad['working_country'] }}, Escort {{ iad['working_city1'] }}" title="Escort {{ iad['working_country'] }} - {{ iad['showname'] }}" class="thumbdi">
@@ -220,7 +239,7 @@
 
                     {% for iadn in iadsn %}
                         <div id="pid{{ iadn['id'] }}" class="b-items2" style="margin-bottom: 20px; margin-left: 10px;">
-                            <h4 style="padding-left: 8px; font-size: 14px; text-align: left; color: #ff2211; text-shadow: none; font-weight: bold;">{{ iadn['showname'] }} <img id="flagescort" src="../../img/flags/{{ strToLower(iadn['country_iso_code']) }}.png" alt="Escort {{ iadn['working_country'] }}, Escort {{ iadn['working_city1'] }}" title="Escort {{ iadn['working_country'] }}" /></h4>
+                            <h4 style="padding-left: 8px; font-size: 14px; text-align: left; color: #ff2211; text-shadow: none; font-weight: bold;"><img id="flagescort" src="../../img/flags/{{ strToLower(iadn['country_iso_code']) }}.png" alt="Escort {{ iadn['working_country'] }}, Escort {{ iadn['working_city1'] }}" title="Escort {{ iadn['working_country'] }}" /> {{ iadn['showname'] }}</h4>
                             <div id="managelr">
                                 <div class="imgcontainer1">
                                     <img id="id{{ iadn['id'] }}" src="../files/noimage.jpg" alt="Escort {{ iadn['working_country'] }}, Escort {{ iadn['working_city1'] }}" title="Escort {{ iadn['working_country'] }} - {{ iadn['showname'] }}" class="thumbdi">

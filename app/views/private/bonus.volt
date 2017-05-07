@@ -41,13 +41,6 @@
                 <div id="coinstext1">
                     <table>
                         <tr>
-                            <td colspan="2">
-                                <button type="button" class="myButton6" data-toggle="modal" data-target="#docsModal">
-                                    Upload documents
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
                             <td>Name:</td>
                             <td style="padding-left: 10px;">{{ name }}</td>
                         </tr>
@@ -68,23 +61,68 @@
                             <td style="padding-left: 10px;">{{ myEarnings }} EUR</td>
                         </tr>
                         <tr>
+                            <td>Earnings left:</td>
+                            <td style="padding-left: 10px;">{{ myLeftEarnings }} EUR</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                        {% if withdraw == 'Y' %}
+                        <tr>
                             <td colspan="2">
                                 <button type="button" class="myButton6" data-toggle="modal" data-target="#withdrawModal">
                                     Withdraw
                                 </button>
                             </td>
                         </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="2" style="color: red;">
+                                    Please upload your documents to have withdrawals enabled. (button will appear)
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if withdraw == 'N' %}
+                            {% if documents < 2 %}
+                                <tr>
+                                    <td colspan="2">
+                                        <button type="button" class="myButton6" data-toggle="modal" data-target="#docsModal">
+                                            Upload documents
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="2" style="color: #985f0d;">
+                                        Your documents are being examined. We will approve or deny them in 48 hours.
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% else %}
+                            <tr>
+                                <td colspan="2" style="color: blue;">
+                                    Congratulations! Your documents for withdrawals are approved.
+                                </td>
+                            </tr>
+                        {% endif %}
                         <tr>
-                            <td>Withdrawn total:</td>
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Total withdrawal requests:</td>
                             <td style="padding-left: 10px;">{{ wdTotal }} EUR</td>
                         </tr>
                         <tr>
-                            <td>Withdrawal request:</td>
+                            <td>Last withdrawal request:</td>
                             <td style="padding-left: 10px;">{{ wdCurrent }} EUR</td>
                         </tr>
                         <tr>
                             <td>Withdrawal status:</td>
                             <td style="padding-left: 10px;">{{ wdStatus }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total withdrawn:</td>
+                            <td style="padding-left: 10px;">{{ wdAll }} EUR</td>
                         </tr>
                     </table>
                 </div>

@@ -6,7 +6,7 @@
 <div id="wrapper">
     <div id="selection">
         <div id="escortright">
-            <div id="mygallery">
+            <!--<div id="mygallery">
                 <div id="gal">
                     My Gallery
                 </div>
@@ -15,7 +15,7 @@
                     100% VERIFIED
                 </div>
                 {% endif %}
-            </div>
+            </div>-->
             <div id="escortleft">
                 <div class="customNavigation">
                     <a class="prev"> <</a>
@@ -28,6 +28,7 @@
                     {% set i = i + 1 %}
                 {% endfor %}
                 </div>
+                <div class="escort_likes"><i class="glyphicon glyphicon-heart" title="likes"></i> ({{ likes }})</div>
             </div>
             <div id="comments">
                 {% if not(logged_in is empty) %}
@@ -39,10 +40,12 @@
                         <i class="glyphicon glyphicon-comment"></i> Post Comment
                     </button>
                 {% endif %}
-                <!--<button id="testbtn" type="button" class="myButton2b" title="Tell a friend">
-                    <i class="glyphicon glyphicon-envelope"></i> Tell-A-Friend
-                </button>
-                <button id="testbtn" type="button" class="myButton2" title="Report fake profile">
+                <a href="../like/{{ ads['showname'] }}-{{ ads['id'] }}">
+                    <button id="testbtn" type="button" class="myButton2b" title="Like">
+                        <i class="glyphicon glyphicon-heart"></i> Like
+                    </button>
+                </a>
+                <!--<button id="testbtn" type="button" class="myButton2" title="Report fake profile">
                     <i class="glyphicon glyphicon-flag"></i> Report Fake
                 </button>-->
             </div>
@@ -70,21 +73,23 @@
         </div>
 
         <div id="escortinfo2">
-            <div id="bioright">
+            <!--<div id="bioright">
                 <div id="biostart">
                     My Info
                 </div>
+            </div>-->
+
                 {% if ads['vip'] == 'Y' %}
                     {% set today = date("Y-m-d H:i:s", time()) %}
                     {% set end_vip = ads['end_vip'] %}
                 {% endif %}
-                {% if ads['packages_id'] == 1 %}
+                {% if ads['packages_id'] == 1 or ads['packages_id'] == 2 %}
                     {% set var_package = 'diamond' %}
-                {% elseif ads['packages_id'] == 4 %}
+                {% elseif ads['packages_id'] == 3 or ads['packages_id'] == 4 %}
                     {% set var_package = 'gold' %}
-                {% elseif ads['packages_id'] == 7 %}
+                {% elseif ads['packages_id'] == 5 or ads['packages_id'] == 6 %}
                     {% set var_package = 'silver' %}
-                {% elseif ads['packages_id'] == 21 %}
+                {% elseif ads['packages_id'] == 7 %}
                     {% set var_package = 'FREE' %}
                 {% endif %}
                 {% if var_package == 'FREE' %}
@@ -97,8 +102,10 @@
                         <div id="showpackage"><img src="../../../public/img/packages/vip.png" alt="Escort {{ ads['working_country'] }}, Escort {{ ads['working_city1'] }}" title="Escort {{ ads['working_country'] }}" /></div>
                     {% endif %}
                 {% endif %}
-            </div>
+
             <div id="escortinfo">
+                <div id="showviews">Total views: {{ counter }}</div>
+
                 <div id="escort-div">
                     <p id="shownameid">
                         &nbsp;{{ ads['showname'] }}
@@ -228,7 +235,26 @@
                     <div id="show_phone" class="phone_call3">My Tours</div>
                     {% if ct > 0 %}
                         {% for t in tours %}
-                            <div id="rightshow3">{{ t.country }} - {{ t.city }}: {{ date("d/m/Y", datetosec(t.datestart)) }} - {{ date("d/m/Y", datetosec(t.dateend)) }}</div>
+                            <div id="rightshow3">
+                                <table>
+                                    <tr>
+                                        <td id="leftshow_top">Tour start: </td>
+                                        <td> {{ date("d/m/Y", datetosec(t.datestart)) }} {{ t.fromHour }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td id="leftshow_top">Tour end: </td>
+                                        <td> {{ date("d/m/Y", datetosec(t.dateend)) }} {{ t.toHour }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td id="leftshow_top">Tour place: </td>
+                                        <td> {{ t.country }} - {{ t.city }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td id="leftshow_top">Tour phone: </td>
+                                        <td> {{ ads['phone'] }}</td>
+                                    </tr>
+                                </table>
+                            </div>
                         {% endfor %}
                     {% else %}
                         <div id="rightshow3">No tours selected</div>

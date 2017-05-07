@@ -62,7 +62,8 @@ class Acl extends Component
             'bonus',
             'loadMlm',
             'documents',
-            'withdraw'
+            'withdraw',
+            'extend'
         ),
         'member' => array(
             'index',

@@ -271,13 +271,13 @@ $(document).ready(function() {
                 $('#pricef').val('');
                 $("#packagesd").change(function(e) {
                     e.preventDefault();
-                    var $d = $("select[name='packagesd']");
+                    var $d = $("#packagesd");
                     var f = $d.val();
-                    if (f == 15) {
+                    if (f == 2) {
                         $('#price_packd').val('150 EUR');
                         $('#priced').val('150');
                     }
-                    else if (f == 30) {
+                    else if (f == 1) {
                         $('#price_packd').val('200 EUR');
                         $('#priced').val('200');
                     }
@@ -287,7 +287,7 @@ $(document).ready(function() {
                     }
                 });
             }
-            else if (n == 4) {
+            else if (n == 3) {
                 $("#packagesd").prop('disabled', true);
                 $('#packagesg').prop('disabled', false);
                 $('#packagess').prop('disabled', true);
@@ -303,13 +303,13 @@ $(document).ready(function() {
                 $('#pricef').val('');
                 $("#packagesg").change(function(e) {
                     e.preventDefault();
-                    var $d = $("select[name='packagesg']");
+                    var $d = $("#packagesg");
                     var f = $d.val();
-                    if (f == 15) {
+                    if (f == 4) {
                         $('#price_packg').val('130 EUR');
                         $('#priceg').val('130');
                     }
-                    else if (f == 30) {
+                    else if (f == 3) {
                         $('#price_packg').val('170 EUR');
                         $('#priceg').val('170');
                     }
@@ -319,7 +319,7 @@ $(document).ready(function() {
                     }
                 });
             }
-            else if (n == 7) {
+            else if (n == 5) {
                 $("#packagesd").prop('disabled', true);
                 $('#packagesg').prop('disabled', true);
                 $('#packagess').prop('disabled', false);
@@ -335,13 +335,13 @@ $(document).ready(function() {
                 $('#pricef').val('');
                 $("#packagess").change(function(e) {
                     e.preventDefault();
-                    var $d = $("select[name='packagess']");
+                    var $d = $("#packagess");
                     var f = $d.val();
-                    if (f == 15) {
+                    if (f == 6) {
                         $('#price_packs').val('110 EUR');
                         $('#prices').val('110');
                     }
-                    else if (f == 30) {
+                    else if (f == 5) {
                         $('#price_packs').val('140 EUR');
                         $('#prices').val('140');
                     }
@@ -351,7 +351,7 @@ $(document).ready(function() {
                     }
                 });
             }
-            else if (n == 21) {
+            else if (n == 7) {
                 $("#packagesd").prop('disabled', true);
                 $('#packagesg').prop('disabled', true);
                 $('#packagess').prop('disabled', true);
@@ -367,7 +367,7 @@ $(document).ready(function() {
                 $('#prices').val('');
                 $("#packagesf").change(function(e) {
                     e.preventDefault();
-                    var $d = $("select[name='packagesf']");
+                    var $d = $("#packagesf");
                     var f = $d.val();
                     if (f == 7) {
                         $('#price_packf').val('FREE (0 EUR)');
@@ -411,8 +411,8 @@ $(document).ready(function() {
             var t = $r.val();
             var g = $l.val();
             if (g > 0) {
-                f = 5;
-                $('#price_vip').val((t * f) + ' s3xcoins (' + (t * f) + ' EUR)');
+                f = 6;
+                $('#price_vip').val(t*f + ' EUR');
             }
             else {
                 $('#price_vip').val('');

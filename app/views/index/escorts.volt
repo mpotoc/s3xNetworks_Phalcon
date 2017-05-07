@@ -80,18 +80,18 @@
                     {% set end_date = ad['end_date'] %}
                     {% set end_vip = ad['end_vip'] %}
                     {% set f = ad['packages_id'] %}
-                    {% if f == 1 or f == 4 or f == 7 or f == 21 %}
+                    {% if f > 0 and f < 8 %}
                         {% if today < end_date %}
                             <div id="pid{{ ad['id'] }}" class="col-xs-4 babes-item">
                                 <h4>{{ ad['showname'] }}</h4>
                                 <a href="../escort/{{ ad['showname'] }}-{{ ad['id'] }}">
                                     <div class="imgcontainer">
                                         <img id="id{{ ad['id'] }}" src="../../files/id{{ ad['id'] }}/{{ ad['path'] }}" class="thumb2" first="files/id{{ ad['id'] }}/{{ ad['path'] }}" alt="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" title="Escort {{ ad['showname'] }}">
-                                        {% if f == 1 %}
+                                        {% if f == 1 or f == 2 %}
                                             <img class="imgoverlay1" src="../../img/packages/diamond.png" alt="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" title="Escort {{ ad['working_country'] }}">
-                                        {% elseif f == 4 %}
+                                        {% elseif f == 3 or f == 4 %}
                                             <img class="imgoverlay1" src="../../img/packages/gold.png" alt="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" title="Escort {{ ad['working_country'] }}">
-                                        {% elseif f == 7 %}
+                                        {% elseif f == 5 or f == 6 %}
                                             <img class="imgoverlay1" src="../../img/packages/silver.png" alt="Escort {{ ad['working_country'] }}, Escort {{ ad['working_city1'] }}" title="Escort {{ ad['working_country'] }}">
                                         {% endif %}
                                         {% if ad['vip'] == 'Y' %}
@@ -109,9 +109,12 @@
                                 </a>
                                 <div class="portfolio-caption">
                                     <p class="text-muted">
-                                        Escort {{ ad['working_city1'] }}&nbsp;&nbsp;
+                                        {% if ad['like'] > 0 %}
+                                            <i class="glyphicon glyphicon-heart" title="likes" style="color: red;"></i>({{ ad['like'] }})
+                                        {% endif %}
+                                        &nbsp;&nbsp;Escort {{ ad['working_city1'] }}&nbsp;&nbsp;
                                         {% if ad['cnt'] > 0 %}
-                                            <i class="glyphicon glyphicon-comment"></i>({{ ad['cnt'] }})
+                                            <i class="glyphicon glyphicon-comment" title="comments" style="color: blue;"></i>({{ ad['cnt'] }})
                                         {% endif %}
                                     </p>
                                 </div>

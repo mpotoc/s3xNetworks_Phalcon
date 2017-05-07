@@ -36,7 +36,7 @@
                 <div class="profile1">
                     <div class="profile2">{{ form.label('showname') }} *</div>
                     <div class="profile4">
-                        {{ form.render('showname', ['class': 'form-control', 'placeholder': 'e.g., Mandy', 'data-validetta': 'required', 'value': ads.showname]) }}
+                        {{ form.render('showname', ['class': 'form-control', 'placeholder': 'e.g., Mandy', 'data-validetta': 'required,maxLength[20]', 'value': ads.showname]) }}
                     </div>
                 </div>
 

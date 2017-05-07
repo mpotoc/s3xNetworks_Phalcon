@@ -88,19 +88,19 @@
 	<div class="modal" id="withdrawModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<form action="withdraw" method='post'>
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">Withdraw request</h4>
-				</div>
-				<div class="modal-body">
-					Please write available amount to make a withdraw request. All withdraws are handled in 48 hours from submitting this form.
-					<br><br>
-					Amount to withdraw: {{ text_field('amount', 'class': 'form-control', 'placeholder': 'e.g. 100') }}
-				</div>
-				<div class="modal-footer">
-					{{ submit_button('Submit', 'class': 'myButton3') }}
-				</div>
+				{{ form('withdraw', 'id': 'outside_form') }}
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">Withdraw request</h4>
+					</div>
+					<div class="modal-body">
+						Please write available amount to make a withdraw request. All withdraws are handled in 48 hours from submitting this form.
+						<br><br>
+						Amount to withdraw: {{ text_field('amount', 'class': 'form-control', 'placeholder': 'e.g. 100', 'data-validetta': 'required,positive') }}
+					</div>
+					<div class="modal-footer">
+						{{ submit_button('Submit', 'class': 'myButton3') }}
+					</div>
 				</form>
 			</div>
 		</div>
@@ -115,11 +115,12 @@
 				</div>
 				<form action="documents" method='post' enctype='multipart/form-data'>
 				<div class="modal-body">
-					Please upload following documents so that you can start withdrawing your earnings:
+					Please upload following photo/scan documents so that you can start withdrawing your earnings.
+					Please upload both files together, not one by one:
 					<br>
-					- Photo of your ID (Passport, ID Card (available only for EU, USA, CA, AU citizens)
+					- Photo/scan of your ID (Passport, ID Card (available only for EU, USA, CA, AU citizens)
 					<br>
-					- Proof of residence (Utility bill, credit card statement or similar paper where your address is stated)
+					- Proof of residence photo/scan (Utility bill, credit card statement or similar paper where your address is stated)
 					<br><br>
 					ID document: <input class="form-control1" type='file' name='files[]'>
 					<br>

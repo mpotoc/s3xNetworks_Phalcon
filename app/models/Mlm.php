@@ -31,6 +31,12 @@ class Mlm extends Model
     public $level;
 
     /**
+     *
+     * @var integer
+     */
+    public $isFull;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()

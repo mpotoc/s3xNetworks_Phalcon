@@ -63,12 +63,10 @@
                         <i class="icon-trophy"></i> s3xScheme
                     </a>&nbsp;&nbsp;
                     {% endif %}
-                    <!--<a href="{{ url.getBaseUri() }}private/coins">
-                        <div id="private2">
-                            <i class="icon-trophy privateb"></i><br>s3xcoins
-                        </div>
-                    </a>
-                    <a href="{{ url.getBaseUri() }}private/tours">
+                    <a href="{{ url.getBaseUri() }}private/forum" class="myButton6">
+                        <i class="icon-folder-open"></i> Forum
+                    </a>&nbsp;&nbsp;
+                    <!--<a href="{{ url.getBaseUri() }}private/tours">
                         <div id="private2">
                             <i class="icon-calendar privateb"></i><br>Tours
                         </div>
@@ -121,9 +119,9 @@
             <div id="sgnup4" style="margin-bottom: 30px;">
                 Your signup bonus code: {{ user.code }}<br><br>
 
-                Everyone that will be signed under your code will be placed right into your s3xScheme. You will accumulate revenue throughout the whole
+                <!--Everyone that will be signed under your code will be placed right into your s3xScheme. You will accumulate revenue throughout the whole
                 month from yourself and your downlines. For this you have to give to as many people your signup bonus code, or wait for automatic order
-                of the s3xScheme system to place someone under your s3xScheme.
+                of the s3xScheme system to place someone under your s3xScheme.-->
             </div>
 
             <div id="sgnup4" style="margin-bottom: 30px;">

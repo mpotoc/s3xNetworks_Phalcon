@@ -63,7 +63,8 @@ class Acl extends Component
             'loadMlm',
             'documents',
             'withdraw',
-            'extend'
+            'extend',
+            'forum'
         ),
         'member' => array(
             'index',
@@ -77,7 +78,8 @@ class Acl extends Component
             'pay',
             'blacklist',
             'delete',
-            'result'
+            'result',
+            'forum'
         ),
         'administrator' => array(
             'index',

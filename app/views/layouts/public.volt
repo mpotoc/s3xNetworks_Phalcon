@@ -47,6 +47,7 @@
           <li><a href="../../escorts/trans">Trans</a></li>
           <li><a href="../../escorts/boys">Boys</a></li>
           <li><a href="../../sites">Our Escort Directories</a></li>
+          <li><a href="../../banner">Banner Exchange</a></li>
           <!--<li><a href="#">Search</a></li>
             <li><a href="#">Classified Ads</a></li>
             <li class="dropdown">
@@ -108,7 +109,9 @@
 <!-- START FOOTER -->
 <div id="footer">
   <div id="wrapperf">
-    <a class="first" href="../../escorts/new">New Escorts</a> | <a href="../../escorts/girls">Girls</a> | <a href="../../escorts/trans">Trans</a> | <a href="../../escorts/boys">Boys</a> | <a href="../../faq">FAQ</a> | <a href="../../terms">Terms and Conditions</a> | <a href="../../contact">Contact</a><br />
+    <a class="first" href="../../escorts/new">New Escorts</a> | <a href="../../escorts/girls">Girls</a> | <a href="../../escorts/trans">Trans</a> |
+    <a href="../../escorts/boys">Boys</a> | <a href="../../faq">FAQ</a> | <a href="../../terms">Terms and Conditions</a> | <a href="../../contact">Contact</a> |
+    <a href="../../banner">Banner Exchange</a><br />
     <a href="{{ url.getBaseUri() }}">www.{{ mainLogo }}.com</a> &copy; 2016<br /> All escorts were 18 or older at the time of depiction.
   </div>
   <div id="right-colf"></div>

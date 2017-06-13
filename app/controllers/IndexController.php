@@ -18,6 +18,7 @@ use Adverts\Models\Users;
 use Adverts\Models\Revenue;
 use Phalcon\Paginator\Adapter\Model as Paginator;
 use Phalcon\Logger\Adapter\File as Logger;
+use Adverts\Forms\BannerExchangeForm;
 
 //TO-DO
 /*
@@ -828,6 +829,47 @@ class IndexController extends ControllerBase
     public function bonusAction()
     {
 
+    }
+
+    public function bannerAction()
+    {
+        try
+        {
+            $form = new BannerExchangeForm();
+
+            if ($this->request->isPost())
+            {
+                if ($form->isValid($this->request->getPost()) == false)
+                {
+                    foreach ($form->getMessages() as $message)
+                    {
+                        $this->flash->error($message);
+                    }
+                }
+                else {
+                    $email = $this->request->getPost('email');
+                    $domain = $this->request->getPost('domain');
+                    $banner = $this->request->getPost('banner');
+                    $msg = $this->request->getPost('msg');
+
+                    // Create the email and send the message
+                    $to = 'webmaster@s3xnetworks.com';
+                    $email_subject = "Banner exchane";
+                    $email_body = "You have received a new message from your website banner exchange form.\n\n" . "Here are the details:\n\nEmail: $email\n\nDomain: $domain\n\nBanner:\n$banner\n\nMessage:\n$msg";
+                    $headers = "From: webmaster@s3xnetworks.com\n";
+                    $headers .= "Reply-To: $email";
+                    mail($to, $email_subject, $email_body, $headers);
+
+                    $this->flash->success('Banner exchange form was submited successfully.');
+                    $form->clear();
+                }
+            }
+            $this->view->form = $form;
+        }
+        catch (AuthException $e)
+        {
+            $this->flash->error($e->getMessage());
+        }
     }
 
     public function faqAction()

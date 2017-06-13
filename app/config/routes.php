@@ -104,6 +104,11 @@ $router->add('/withdraw', array(
     'action' => 'withdraw'
 ));
 
+$router->add('/banner', array(
+    'controller' => 'index',
+    'action' => 'banner'
+));
+
 $router->add('/like/:params', array(
     'controller' => 'index',
     'action' => 'like',

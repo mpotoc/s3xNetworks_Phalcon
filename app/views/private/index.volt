@@ -63,7 +63,7 @@
                         <i class="icon-trophy"></i> s3xScheme
                     </a>&nbsp;&nbsp;
                     {% endif %}
-                    <a href="{{ url.getBaseUri() }}private/forum" class="myButton6">
+                    <a href="http://www.s3xnetworks.com/forum" class="myButton6" target="_blank">
                         <i class="icon-folder-open"></i> Forum
                     </a>&nbsp;&nbsp;
                     <!--<a href="{{ url.getBaseUri() }}private/tours">

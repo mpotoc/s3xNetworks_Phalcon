@@ -64,7 +64,7 @@
                             <i class="icon-camera-retro privateb"></i><br>100% Verified
                         </div>
                     </a>-->
-                    <a href="{{ url.getBaseUri() }}member/forum" class="myButton6">
+                    <a href="http://www.s3xnetworks.com/forum" class="myButton6" target="_blank">
                         <i class="icon-folder-open"></i> Forum
                     </a>&nbsp;&nbsp;
                     <a href="{{ url.getBaseUri() }}member/settings" class="myButton6">

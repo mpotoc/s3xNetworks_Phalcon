@@ -39,7 +39,7 @@
     age         : 'You must be 18+ to post an ad. Allowed age (18-99).',
     number      : 'You can enter only numbers in this field.',
     positive    : 'You can enter only positive numbers.',
-    price       : 'Price for 2h and night must be positive number or 0. If you set as 0 it will not be visible on ad!',
+    price       : 'Price must be positive number or 0. If you set as 0 it will not be visible on ad!',
     phone       : 'Your phone number appears to be invalid. Correct format: +123456789 (no spaces, -, /, (), ...), only + and numbers allowed.',
     maxLength   : 'Maximum {count} characters allowed!',
     minLength   : 'Minimum {count} characters allowed!',

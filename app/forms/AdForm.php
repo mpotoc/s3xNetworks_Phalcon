@@ -183,16 +183,10 @@ class AdForm extends Form
         // Prices
         $price1 = new Text('price1');
         $price1->setLabel('30 minutes:');
-        $price1->addValidator(new PresenceOf(array(
-            'message' => 'The price field for 30 minutes is required!'
-        )));
         $this->add($price1);
 
         $price2 = new Text('price2');
         $price2->setLabel('1 hour:');
-        $price2->addValidator(new PresenceOf(array(
-            'message' => 'The price field 1 hour is required!'
-        )));
         $this->add($price2);
 
         $price3 = new Text('price3');

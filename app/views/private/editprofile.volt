@@ -177,16 +177,16 @@
                 <br/>
 
                 <div class="profile1">
-                    <div class="profile2">{{ form.label('price1') }} *</div>
+                    <div class="profile2">{{ form.label('price1') }}</div>
                     <div class="profile4">
-                        {{ form.render('price1', ['class': 'form-control', 'data-validetta': 'required,positive', 'value': ads.price1]) }}
+                        {{ form.render('price1', ['class': 'form-control', 'data-validetta': 'price', 'value': ads.price1]) }} <!-- required,positive -->
                     </div>
                 </div>
 
                 <div class="profile1">
-                    <div class="profile5">{{ form.label('price2') }} *</div>
+                    <div class="profile5">{{ form.label('price2') }}</div>
                     <div class="profile4">
-                        {{ form.render('price2', ['class': 'form-control', 'data-validetta': 'required,positive', 'value': ads.price2]) }}
+                        {{ form.render('price2', ['class': 'form-control', 'data-validetta': 'price', 'value': ads.price2]) }}
                     </div>
                 </div>
 

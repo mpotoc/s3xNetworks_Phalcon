@@ -57,6 +57,14 @@
                         </a>
                     <p>&nbsp;</p>
                 </div>
+                <br/><br/>
+                <!--<div>
+                    <a href="http://www.rimakapoor.com"><img src="http://www.rimakapoor.com/images/banner-bg.jpg" width="468"><br/>Mumbai escorts girl</a>
+                </div>
+                <br/><br/>-->
+                <div class="esl_html link_type-item link_type-item-home" rel="51646" eslid="90156" hostname="sumanjeet.in">
+                    <a href="http://www.sumanjeet.in" target="blank" title="links"><img class="banner" src="http://userfiles.escortbook.com/ef/0/51/646/full_5954c797226e9.gif" alt="links"/></a>
+                </div>
             </div>
         </div>
     </div>

@@ -124,7 +124,7 @@
                     </div>
                 </div>
 
-                <div class="profile1">
+                <!--<div class="profile1">
                     <div class="packageradio">{{ form.render('payment', ['value': '7', 'data-validetta': 'required']) }}
                         <b style="color: #00247d; text-shadow: none;">FREE Package</b>
                     </div>
@@ -148,7 +148,7 @@
                         <input type="text" class="form-control" name="price_packf" id="price_packf" disabled />
                         <input type="hidden" name="price" id="pricef" value="">
                     </div>
-                </div>
+                </div>-->
 
                 <br />
 

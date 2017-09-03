@@ -25,7 +25,8 @@
             <div id="sgnup4" style="margin-bottom: 30px;">
                 All input fields marked with '<b>*</b>' are mandatory. The more information you will put in your advertisement more people will notice
                 your ad and you will get more feedback. When you are finished with inputting information about yourself please click
-                '<b>Save</b>' button to advance to your gallery upload.
+                '<b>Save</b>' button to advance to your gallery upload. As soon as your model profile gets saved, you get 180 days of FREE package, which
+                will be activated as soon as you ad at least one photo to your model profile.
             </div>
 
             <input type="hidden" name="hidden_sel" id="hidden_sel" value="1">

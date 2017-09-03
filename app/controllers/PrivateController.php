@@ -731,7 +731,21 @@ class PrivateController extends ControllerBase
 
                     if ($ad->save())
                     {
-                        $this->flash->success('New model profile added. Now you have to add at least one photo to activate your profile!');
+                        $days = 180;
+                        $d = new \DateTime();
+                        $d1 = $d->format("Y-m-d H:i:s");
+                        $endDate = date("Y-m-d H:i:s", (time() + (86400 * $days)));
+
+                        $advertising = new Advertising();
+                        $advertising->users_id = $user->id;
+                        $advertising->ad_id = $ad->id;
+                        $advertising->packages_id = 7;
+                        $advertising->date = $d1;
+                        $advertising->end_date = $endDate;
+                        $advertising->days = $days;
+                        $advertising->save();
+
+                        $this->flash->success('New model profile added. Now you have to add at least one photo to activate your profile and be listed online!');
                         $form->clear();
 
                         $this->session->set('bio', array(

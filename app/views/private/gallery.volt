@@ -22,7 +22,9 @@
             </div>
 
             <div id="sgnup4" style="margin-bottom: 30px;">
-                Please upload at least one photo to activate your profile. Without photos you can not set your advertisement.
+                Please upload at least one photo to activate your model profile. Without photos you can not set your advertisement and before
+                you do not upload at least one photo your 180 days FREE package will not be activated and list your new model profile online.
+                <br /><br />
                 Please upload photo in <b>jpg/jpeg, gif, png or bmp format</b>. The photos must be minimum <b>600x400</b> px. Landscape photos
                 are not allowed, only portrait photos. When you are done with gallery click on button '<b>FINISH</b>'.
                 Main photo is the first uploaded photo.<br /><br />

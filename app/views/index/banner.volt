@@ -35,17 +35,17 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                Your email: {{ text_field('email', 'class': 'form-control', 'placeholder': 'e.g., myemail@mydomain.com') }}
+                                Your Email: {{ text_field('email', 'class': 'form-control', 'placeholder': 'e.g., myemail@mydomain.com') }}
                             </div>
                             <div class="form-group">
-                                Your domain: {{ text_field('domain', 'class': 'form-control', 'placeholder': 'e.g., mydomain.com') }}
+                                Your Domain: {{ text_field('domain', 'class': 'form-control', 'placeholder': 'e.g., mydomain.com') }}
                             </div>
                             <div class="form-group">
-                                Your banner code: {{ text_area('banner', 'class': 'form-control', 'rows': '6', 'placeholder': 'e.g., Your banner code here')
+                                Your Banner Code: {{ text_area('banner', 'class': 'form-control', 'rows': '6', 'placeholder': 'e.g., Your banner code here')
                                 }}
                             </div>
                             <div class="form-group">
-                                Your message: {{ text_area('msg', 'class': 'form-control', 'rows': '6', 'placeholder': 'e.g., Your message here') }}
+                                Your Message: {{ text_area('msg', 'class': 'form-control', 'rows': '6', 'placeholder': 'e.g., Your message here') }}
                             </div>
                             {{ submit_button('Send', 'class': 'myButton3') }}
                         </div>

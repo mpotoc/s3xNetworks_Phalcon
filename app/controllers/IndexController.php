@@ -854,7 +854,7 @@ class IndexController extends ControllerBase
 
                     // Create the email and send the message
                     $to = 'webmaster@s3xnetworks.com';
-                    $email_subject = "Banner exchane";
+                    $email_subject = "Banner exchange";
                     $email_body = "You have received a new message from your website banner exchange form.\n\n" . "Here are the details:\n\nEmail: $email\n\nDomain: $domain\n\nBanner:\n$banner\n\nMessage:\n$msg";
                     $headers = "From: webmaster@s3xnetworks.com\n";
                     $headers .= "Reply-To: $email";

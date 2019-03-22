@@ -44,7 +44,6 @@ class UserControlController extends ControllerBase
 
     public function indexAction()
     {
-
     }
 
     /**
